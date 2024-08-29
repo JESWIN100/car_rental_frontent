@@ -9,10 +9,18 @@ import SignupPage from "../pages/user/SignupPage"
 import UserProfile from "../pages/user/ProfilePage"
 import BedforeDetails from "../components/ui/bfProfile"
 import AboutPage from "../pages/user/AboutPage"
+import UserHomepage from '../pages/user/userHomepage'
+import AnnPage from "../pages/user/AnnPage"
+import {UserAuth} from "./protectedRoutes/UserAuth"
 
 
 export const router = createBrowserRouter([
 
+
+
+
+
+    
     {
         path: "/",
         element: <RootLayout />,
@@ -20,7 +28,8 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />
+                // element: <Home />
+                element: <AnnPage />
                 },
                 {
                     path: "about",
@@ -43,13 +52,15 @@ export const router = createBrowserRouter([
 },
 {
     path: "/user",
-    element: <UserLayout />,
+    element:<UserAuth>
+<UserLayout />
+    </UserAuth> ,
     errorElement:<ErrorPage/>,
 
     children: [
         {
             path: "home",
-            element: <HomePage />
+            element: <UserHomepage/>
             },
             {
                 path:"profile",

@@ -2,6 +2,7 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../config/axiosInstance";
 import Cookies from 'js-cookie';
+
 export const userLogin = async (loginData) => {
     try {
       const response = await axiosInstance.post('user/login', loginData, {
@@ -38,3 +39,9 @@ export const userLogout=async(data)=>{
       toast.error(error.response?.data?.message || "An error occurred");
       console.error(error);
       }}
+
+
+export const userCheck=async()=>{
+
+
+}

@@ -1,16 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from '../../components/ui/Carousel';
 
 const HomePage = () => {
   return (
     <div className="font-sans">
       {/* Header Section */}
-      <header className="bg-cover bg-center text-white py-24" style={{ backgroundImage: "url('https://media.istockphoto.com/id/1419724017/photo/car-rental-agency-employee-giving-car-keys-to-beautiful-young-woman.webp?b=1&s=612x612&w=0&k=20&c=Qd2P0VYuQGmethhCvWzR51PgZmGEN9YaWl47PiYL-3Q=')" }}>
-        <div className="container mx-auto text-center">
+      <div>
+       <img src="https://img.freepik.com/free-psd/car-rental-automotive-facebook-cover-template_106176-2483.jpg" alt="" />
+      </div>
+      <header className="bg-cover bg-center text-white py-24" style={{ backgroundImage: "url('')" }}>
+        {/* <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to EasyRent Car Rentals</h1>
           <p className="text-lg md:text-xl mb-8">Your go-to platform for convenient and affordable car rentals. Explore our diverse fleet and find the perfect car for your needs.</p>
           <a href="/signup" className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition">Get Started</a>
-        </div>
+        </div> */}
+        <Carousel/>
       </header>
 
       {/* Features Section */}

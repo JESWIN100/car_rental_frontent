@@ -35,7 +35,7 @@ export default function UserHeader() {
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
       <div className="flex items-center">
           {/* Logo container with adjustment */}
-          <Link to="/" className="flex items-center">
+          <Link to="home" className="flex items-center">
             <img
               src={logo} // Use the correct path here
               alt="logo"
@@ -77,10 +77,10 @@ export default function UserHeader() {
         {/* Desktop navigation */}
         <ul className="hidden md:flex space-x-8">
           <li><a href="#" className="font-semibold">Home</a></li>
-          <li><a href="#" className="font-semibold">How it Works</a></li>
-          <li><a href="#" className="font-semibold">Rental Details</a></li>
-          <li><a href="#" className="font-semibold">Why Choose Us</a></li>
-          <li><a href="#" className="font-semibold">Testimonials</a></li>
+          <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
+          <li><a href="#" className="font-semibold">Rental Cars</a></li>
+          <li><a href="#why-choose-us" className="font-semibold">Why Choose Us</a></li>
+          <li><a href="#testimonials" className="font-semibold">Testimonials</a></li>
         </ul>
 
         {/* Authentication buttons */}
@@ -105,12 +105,12 @@ export default function UserHeader() {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4">
+          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 bg-white">
             <li><a href="#" className="font-semibold">Home</a></li>
-            <li><a href="#" className="font-semibold">How it Works</a></li>
-            <li><a href="#" className="font-semibold">Rental Details</a></li>
-            <li><a href="#" className="font-semibold">Why Choose Us</a></li>
-            <li><a href="#" className="font-semibold">Testimonials</a></li>
+            <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
+            <li><a href="#" className="font-semibold">Rental Cars</a></li>
+            <li><a href="#why-choose-us" className="font-semibold">Why Choose Us</a></li>
+            <li><a href="#testimonials" className="font-semibold">Testimonials</a></li>
             <li className="flex flex-col items-center space-y-4">
               <button
                 className="btn btn-primary btn-sm"
