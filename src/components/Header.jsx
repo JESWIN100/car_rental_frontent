@@ -10,22 +10,22 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full shadow-md "> {/* Add your desired background color here */}
+    <header className="w-full shadow-md "> {/* Example background color */}
       <nav className="container mx-auto flex justify-between items-center py-4 px-4 md:px-8">
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-bold ">
           <Link to="/">Logo</Link>
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 text-gray-600">
+        <ul className="hidden md:flex space-x-6 ">
           <li>
             <Link to="/" className="hover:underline-offset-4">Home</Link>
           </li>
           <li>
-            <Link to="/about" onClick={toggleMenu}>About us</Link>
+            <Link to="/about">About us</Link>
           </li>
           <li>
-            <Link to="/rental-details">Rental Details</Link>
+            <Link to="/user/home">Rental Details</Link>
           </li>
           <li>
             <Link to="/register">Register</Link>
@@ -40,7 +40,7 @@ export default function Header() {
 
         {/* Hamburger Icon for Mobile */}
         <button
-          className="md:hidden text-gray-600 focus:outline-none"
+          className="md:hidden text-gray-300 focus:outline-none"
           onClick={toggleMenu}
         >
           <svg
@@ -71,7 +71,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <ul className="flex flex-col space-y-4 p-4 text-gray-600 md:hidden">
+        <ul className="flex flex-col space-y-4 p-4 text-gray-300 md:hidden">
           <li>
             <Link to="/" onClick={toggleMenu}>Home</Link>
           </li>
@@ -79,7 +79,7 @@ export default function Header() {
             <Link to="/about" onClick={toggleMenu}>About us</Link>
           </li>
           <li>
-            <Link to="/rental-details" onClick={toggleMenu}>Rental Details</Link>
+            <Link to="/user/home" onClick={toggleMenu}>Rental Details</Link>
           </li>
           <li>
             <Link to="/register" onClick={toggleMenu}>Register</Link>

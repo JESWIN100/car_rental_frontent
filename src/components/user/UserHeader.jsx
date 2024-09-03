@@ -78,7 +78,7 @@ export default function UserHeader() {
         <ul className="hidden md:flex space-x-8">
           <li><a href="#" className="font-semibold">Home</a></li>
           <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
-          <li><a href="#" className="font-semibold">Rental Cars</a></li>
+          <li><a href="/car/carslist" className="font-semibold">Rental Cars</a></li>
           <li><a href="#why-choose-us" className="font-semibold">Why Choose Us</a></li>
           <li><a href="#testimonials" className="font-semibold">Testimonials</a></li>
         </ul>
@@ -108,7 +108,7 @@ export default function UserHeader() {
           <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 bg-white">
             <li><a href="#" className="font-semibold">Home</a></li>
             <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
-            <li><a href="#" className="font-semibold">Rental Cars</a></li>
+            <li><a href="/car/carslist" className="font-semibold">Rental Cars</a></li>
             <li><a href="#why-choose-us" className="font-semibold">Why Choose Us</a></li>
             <li><a href="#testimonials" className="font-semibold">Testimonials</a></li>
             <li className="flex flex-col items-center space-y-4">

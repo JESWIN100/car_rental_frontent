@@ -1,9 +1,7 @@
 import  { createBrowserRouter } from "react-router-dom"
-import HomePage from "../pages/user/HomePage"
 import RootLayout from "../layout/RootLayout"
 import UserLayout from "../layout/UserLayout"
 import ErrorPage from "../pages/user/ErrorPage"
-import Home from "../pages/user/HomePage"
 import LoginPage from "../pages/user/LoginPage"
 import SignupPage from "../pages/user/SignupPage"
 import UserProfile from "../pages/user/ProfilePage"
@@ -12,6 +10,14 @@ import AboutPage from "../pages/user/AboutPage"
 import UserHomepage from '../pages/user/userHomepage'
 import AnnPage from "../pages/user/AnnPage"
 import {UserAuth} from "./protectedRoutes/UserAuth"
+import RentCars from "../pages/user/RentCars"
+import CarLayout from "../layout/Carlayout"
+import WhishListPage from "../pages/user/WhishListPage"
+import CarsDetailsPage from "../pages/user/CarsDetailsPage"
+import BookingPage from '../pages/user/BookingPage'
+import PayemtSuccessPage from "../pages/user/PayemtSuccessPage"
+import PaymentLayout from "../layout/PaymentLayout"
+import TotalAmountDisplay from "../components/ui/TotalAmountDisplay"
 
 
 export const router = createBrowserRouter([
@@ -47,31 +53,84 @@ export const router = createBrowserRouter([
                 {
                     path:"profile",
                     element:<UserProfile/>
-                }
+                },
+               
             ],
 },
 {
     path: "/user",
-    element:<UserAuth>
-<UserLayout />
-    </UserAuth> ,
+    element: <UserAuth><UserLayout /></UserAuth>,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "home",
+        element: <UserHomepage />
+      },
+      {
+        path: "profile",
+        element: <UserProfile />
+      },
+      {
+        path: "bf",
+        element: <BedforeDetails />
+      }
+    ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />, // 404 Error Page
+  },
+{
+    path: "/car",
+    element:<CarLayout />, 
+
     errorElement:<ErrorPage/>,
 
     children: [
         {
-            path: "home",
-            element: <UserHomepage/>
+            path: "carslist",
+            element: <RentCars/>
+
             },
             {
-                path:"profile",
-                element:<UserProfile/>
+              path: "car-details/:id",
+              element:<CarsDetailsPage/>
             },
             {
-                path:"bf",
-                element:<BedforeDetails/>
-            }
+                path:"wishlist",
+                element:<WhishListPage/>
+
+            },
+            // {
+            //   path: "book/:id",
+            //   element: <BookingPage/>
+            // }
+            
             
         ],
     
+},
+{
+  path: "/payment",
+  element:<PaymentLayout />, 
+  errorElement:<ErrorPage/>,
+
+  children: [
+
+    {
+      path: "book/:id",
+      element: <BookingPage/>
+    },
+    
+
+      {
+          path: "sucess",
+          element: <PayemtSuccessPage/>
+
+          }
+          
+          
+      ],
+  
 }
 ])
