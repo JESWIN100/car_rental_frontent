@@ -1,7 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function PaymentSuccessPage() {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      navigate('/user/home');
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 text-center">
       <div className="mb-6">
@@ -19,9 +31,16 @@ export default function PaymentSuccessPage() {
         with your payment details shortly. <br></br>If you have any questions or concerns, please don't hesitate to
         contact us.
       </p>
-      <Link to="/" className="text-error  transition duration-300">
-        Back to Home
-      </Link>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center mt-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-2"></div>
+          <p className="text-gray-700">Redirecting to home page...</p>
+        </div>
+      ) : (
+        <Link to="/user/home" className="text-error transition duration-300">
+          Back to Home
+        </Link>
+      )}
     </div>
-  )
+  );
 }

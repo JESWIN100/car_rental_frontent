@@ -24,18 +24,25 @@ export default function CarRentalInfo({ setTotalAmount }) { // Accept setTotalAm
   };
 
   // Handle form submission
-  const onSubmit = async (data) => {
-    try {
-      calculateAmount(data.startDate, data.startTime, data.endDate, data.endTime);
-      const response = await bookingCreate(data);
-      if (response) {
-        toast.success(response.message);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred");
-      console.error(error);
+const onSubmit = async (data) => {
+  try {
+    calculateAmount(data.startDate, data.startTime, data.endDate, data.endTime);
+
+    const bookingData = {
+      ...data,
+      carId: id, // Add carId to the booking data
+    };
+
+    const response = await bookingCreate(bookingData);
+    if (response) {
+      toast.success(response.message);
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.message || "An error occurred");
+    console.error(error);
+  }
+};
+
 
   // Handle radio button change
   const handleRadioChange = async () => {

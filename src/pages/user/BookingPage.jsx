@@ -1,3 +1,4 @@
+// BookingPage Component
 import React, { useEffect, useState, useCallback } from 'react';
 import { FaCreditCard, FaPaypal, FaBitcoin } from 'react-icons/fa';
 import BillingSection from '../../components/ui/BillingSection';
@@ -16,8 +17,8 @@ export default function BookingPage() {
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [termsConsent, setTermsConsent] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Add this line
-  const { id } = useParams();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const { id, carId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,12 +44,12 @@ export default function BookingPage() {
       const fieldElement = document.getElementById(fieldId);
       if (!fieldElement || !fieldElement.value.trim()) {
         toast.error('Please complete all required fields.');
-        setIsButtonDisabled(true); // Disable button if validation fails
+        setIsButtonDisabled(true);
         return false;
       }
     }
     
-    setIsButtonDisabled(false); // Enable button if all validations pass
+    setIsButtonDisabled(false);
     return true;
   }, []);
 
@@ -81,7 +82,7 @@ export default function BookingPage() {
       const sessionResponse = await axiosInstance({
         url: "/payment/create-checkout-session",
         method: "POST",
-        data: { carDetails,totalAmount },
+        data: { carDetails, totalAmount },
       });
       console.log(sessionResponse, "session=======>");
 
@@ -99,13 +100,11 @@ export default function BookingPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className='hidden'>
-        
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
           <BillingSection />
-          <CarRentalInfo setTotalAmount={setTotalAmount} />
+          <CarRentalInfo id={id} carId={carId} setTotalAmount={setTotalAmount} />
+
           <div className="bg-white p-4 rounded-lg shadow-md pt-10">
             <h2 className="text-xl font-semibold">
               Confirmation <span className="text-gray-500">Step 3 of 3</span>
@@ -140,7 +139,7 @@ export default function BookingPage() {
                 type="submit"
                 className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                 onClick={makePayment}
-                disabled={isButtonDisabled} // Button is disabled based on validation
+                disabled={isButtonDisabled}
               >
                 Rent Now
               </button>
@@ -148,9 +147,8 @@ export default function BookingPage() {
           </div>
         </div>
         <div className='hidden md:block'>
-  <CarSummary />
-</div>
-
+          <CarSummary />
+        </div>
       </div>
     </div>
   );

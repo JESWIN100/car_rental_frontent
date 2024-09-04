@@ -18,6 +18,7 @@ import BookingPage from '../pages/user/BookingPage'
 import PayemtSuccessPage from "../pages/user/PayemtSuccessPage"
 import PaymentLayout from "../layout/PaymentLayout"
 import TotalAmountDisplay from "../components/ui/TotalAmountDisplay"
+import CarRentalInfo from "../components/ui/CarRentalInfo"
 
 
 export const router = createBrowserRouter([
@@ -101,11 +102,14 @@ export const router = createBrowserRouter([
                 element:<WhishListPage/>
 
             },
+            {
+              path: "carBookInfo/:CarId",
+              element: <CarRentalInfo/>
+            },
             // {
-            //   path: "book/:id",
+            //   path: "book/:id/:carId",
             //   element: <BookingPage/>
-            // }
-            
+            // },
             
         ],
     
@@ -117,10 +121,11 @@ export const router = createBrowserRouter([
 
   children: [
 
-    {
-      path: "book/:id",
-      element: <BookingPage/>
-    },
+    // Inside your routes definition
+{
+  path: "book/:id/",
+  element: <BookingPage/>
+},
     
 
       {
