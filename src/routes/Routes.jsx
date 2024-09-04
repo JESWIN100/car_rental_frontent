@@ -5,7 +5,7 @@ import ErrorPage from "../pages/user/ErrorPage"
 import LoginPage from "../pages/user/LoginPage"
 import SignupPage from "../pages/user/SignupPage"
 import UserProfile from "../pages/user/ProfilePage"
-import BedforeDetails from "../components/ui/bfProfile"
+import BedforeDetails from "../components/ui/BfProfile"
 import AboutPage from "../pages/user/AboutPage"
 import UserHomepage from '../pages/user/userHomepage'
 import AnnPage from "../pages/user/AnnPage"
