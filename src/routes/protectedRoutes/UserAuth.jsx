@@ -20,5 +20,10 @@ export const UserAuth = ({ children }) => {
     checkUser();
   }, []);
 
-  return user ? children : <div>User not authenticated</div>; // Provide feedback if not authenticated
+
+
+  return user ? children :
+   <div>User not authenticated</div>
+
+   ; 
 };

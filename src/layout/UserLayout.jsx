@@ -1,7 +1,7 @@
 import React from 'react'
 import UserHeader from '../components/user/UserHeader'
 import { Outlet } from 'react-router-dom'
-import Footer from '../components/Footer'
+import UserFooter from '../components/user/userFooter'
 
 export default function UserLayout() {
   return (
@@ -10,7 +10,7 @@ export default function UserLayout() {
         <div className='min-h-96'>
         <Outlet/>
         </div>
-        <Footer/>
+        <UserFooter/>
     </div>
   )
 }

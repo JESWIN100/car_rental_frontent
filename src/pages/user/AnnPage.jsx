@@ -1,53 +1,77 @@
 import React from 'react';
-import image from "../../assets/images/homepage.png";
 import { Link } from 'react-router-dom';
+import { FaCar, FaMoneyCheckAlt, FaHeadset, FaShieldAlt } from 'react-icons/fa';
+import image from "../../assets/images/HomePoster.jpg";
+import Header from '../../components/Header';
 
 export default function AnnPage() {
   return (
-    <div className="font-sans bg-gray-50 min-h-screen">
-      {/* Hero Section */}
-      <section className="flex flex-col md:flex-row justify-between items-center p-8 w-full">
-        <div className="w-full md:w-1/2">
-          <h1 className="text-4xl font-extrabold text-red-600 mb-4 tracking-wide leading-tight">
-            CAR RENTAL
-          </h1>
-          <p className="text-gray-700 text-base md:text-lg mb-6">
-            Experience the convenience and flexibility of our top-rated car rental service.
-            Whether you're planning a weekend getaway, a business trip, or need a reliable ride for your daily commute, we offer a wide range of vehicles to suit your needs.
-            From compact cars to luxury sedans and SUVs, our fleet is well-maintained and ready to go.
-            Enjoy competitive pricing, hassle-free booking, and exceptional customer service that puts you in the driver's seat.
-            Choose us for your next journey and travel with confidence.
-          </p>
-          <Link to="/signup">
-            <button className="bg-red-600 hover:bg-red-700 transition duration-300 text-white py-2 px-6 rounded-lg shadow-lg transform hover:scale-105">
-              Book Now!
-            </button>
-          </Link>
-        </div>
-        <div className="w-full md:w-1/2 mt-8 md:mt-0 relative">
-          <img src={image} alt="Car Rental" className="w-full h-auto rounded-lg shadow-xl transform hover:scale-105 transition duration-300" />
+    <div className="font-sans  min-h-screen">
+   {/* Hero Section */}
+   <Header/>
+   <section className="relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${image})` }}>
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="relative flex flex-col md:flex-row items-center p-8 md:p-16 w-full h-screen bg-gradient-to-t from-black via-transparent to-transparent">
+          <div className="w-full md:w-1/2 text-center md:text-left z-10">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight leading-tight">
+              Discover Your Perfect Ride
+            </h1>
+            <p className="text-gray-300 text-lg md:text-xl mb-8">
+              Whether it's a weekend escape, a business journey, or a daily commute, our diverse fleet ensures you'll find the right vehicle. Enjoy seamless booking, competitive rates, and exceptional service tailored to your needs.
+            </p>
+            <Link to="/signup">
+              <button className="bg-red-600 hover:bg-red-700 transition duration-300 text-white py-3 px-8 rounded-lg shadow-lg transform hover:scale-105">
+                Book Your Car
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
-<section className="bg-gradient-to-r from-red-500 to-red-700 text-white p-10 mt-12 rounded-lg shadow-xl">
-  <div className="text-center space-y-6">
-    <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Why Choose Us?</h2>
-    <p className="text-lg md:text-xl leading-relaxed">
-      Whether you're seeking budget-friendly options or luxury rides, our diverse fleet has you covered. Our 24/7 customer support ensures you're never left stranded, no matter where the road takes you.
-    </p>
-    <p className="text-lg md:text-xl leading-relaxed">
-      Experience the ease of seamless online booking with transparent pricing and zero hidden fees. Rest assured, our vehicles are meticulously maintained for your safety and comfort.
-    </p>
-    <p className="text-lg md:text-xl leading-relaxed">
-      We offer flexible rental plans that fit your schedule, along with comprehensive insurance options and roadside assistance for added peace of mind.
-    </p>
-    <p className="text-lg md:text-xl font-semibold">
-      Your satisfaction is our top priority. Choose us for your car rental needs and discover the difference quality service makes.
-    </p>
-  </div>
-</section>
-
+      <section className="p-8 mt-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 ">
+          Why Choose Us?
+        </h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className=" p-6 rounded-lg shadow-lg flex items-start space-x-6 transform hover:scale-105 transition duration-300">
+            <div className="bg-red-100 text-red-600 p-4 rounded-full">
+              <FaCar className="text-3xl" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Wide Range of Vehicles</h3>
+              <p className="text-gray-700">Choose from a diverse selection of vehicles, from budget-friendly options to luxury rides, ensuring the perfect fit for your journey.</p>
+            </div>
+          </div>
+          <div className=" p-6 rounded-lg shadow-lg flex items-start space-x-6 transform hover:scale-105 transition duration-300">
+            <div className="bg-red-100 text-red-600 p-4 rounded-full">
+              <FaMoneyCheckAlt className="text-3xl" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Transparent Pricing</h3>
+              <p className="text-gray-700">Enjoy clear, competitive pricing with no hidden fees, ensuring a straightforward and hassle-free rental experience.</p>
+            </div>
+          </div>
+          <div className=" p-6 rounded-lg shadow-lg flex items-start space-x-6 transform hover:scale-105 transition duration-300">
+            <div className="bg-red-100 text-red-600 p-4 rounded-full">
+              <FaHeadset className="text-3xl" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
+              <p className="text-gray-700">Our dedicated customer support team is available around the clock, ensuring assistance whenever and wherever you need it.</p>
+            </div>
+          </div>
+          <div className=" p-6 rounded-lg shadow-lg flex items-start space-x-6 transform hover:scale-105 transition duration-300">
+            <div className="bg-red-100 text-red-600 p-4 rounded-full">
+              <FaShieldAlt className="text-3xl" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Safety & Insurance</h3>
+              <p className="text-gray-700">Travel with confidence knowing our vehicles are well-maintained and covered by comprehensive insurance options for your peace of mind.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
