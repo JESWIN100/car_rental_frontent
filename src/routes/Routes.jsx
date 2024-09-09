@@ -1,4 +1,4 @@
-import  { createBrowserRouter } from "react-router-dom"
+import  { createBrowserRouter, useParams } from "react-router-dom"
 import RootLayout from "../layout/RootLayout"
 import UserLayout from "../layout/UserLayout"
 import ErrorPage from "../pages/user/ErrorPage"
@@ -25,8 +25,15 @@ import AdminLoginPage from "../pages/admin/AdminLoginPage"
 import AdminLayout from "../layout/AdminLayout"
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage"
 import AdminCars from "../pages/admin/AdminCars"
-
-
+import CarAdd from "../components/ui/adminUi/CarAdd"
+import UpdateCar from "../components/ui/adminUi/UpdateCar"
+import AdminBooking from "../pages/admin/AdminBooking"
+import AdminReview from "../pages/admin/AdminReview"
+import AdminUser from "../pages/admin/AdminUser"
+import AdminDriver from "../pages/admin/AdminDriver"
+import WishListPage from "../pages/user/WishListPage"
+import AdminErrorPage from "../pages/admin/AdminErrorPage"
+// const { id } = useParams();
 export const router = createBrowserRouter([
 
     
@@ -88,10 +95,10 @@ export const router = createBrowserRouter([
         path: "home",
         element: <UserHomepage />
       },
-      // {
-      //   path: "profile",
-      //   element: <UserProfile />
-      // },
+      {
+        path: "wishlist",
+        element: <WishListPage />
+      },
       {
         path: "bf",
         element: <BedforeDetails />
@@ -110,10 +117,10 @@ export const router = createBrowserRouter([
     
     ],
   },
-  {
-    path: "*",
-    element: <ErrorPage />, // 404 Error Page
-  },
+  // {
+  //   path: "*",
+  //   element: <ErrorPage />, // 404 Error Page
+  // },
 {
     path: "/car",
     element:<CarLayout />, 
@@ -136,7 +143,7 @@ export const router = createBrowserRouter([
 
             },
             {
-              path: "carBookInfo/:CarId",
+              path: "carBookInfo/:CarId/:userId",
               element: <CarRentalInfo/>
             },
             {
@@ -174,7 +181,7 @@ export const router = createBrowserRouter([
 {
   path: "/admin",
   element:<PaymentLayout />, 
-  errorElement:<ErrorPage/>,
+  errorElement:<AdminErrorPage/>,
 
   children: [
 {
@@ -190,7 +197,7 @@ export const router = createBrowserRouter([
 {
   path: "/admin",
   element:<AdminLayout />, 
-  errorElement:<ErrorPage/>,
+  // errorElement:<AdminErrorPage/>,
 
   children: [
 
@@ -202,8 +209,32 @@ export const router = createBrowserRouter([
     path: "cars",
     element: <AdminCars/>
     },
-          
-          
+    {
+      path: "addcars",
+      element: <CarAdd/>
+      },
+      {
+        path: "updatecar/:carId",
+        element: < UpdateCar/>
+        },
+        {
+          path: "allbookings",
+          element: < AdminBooking/>
+          },
+          {
+            path: "review",
+            element: < AdminReview/>
+            },
+            {
+              path: "users",
+              element: < AdminUser/>
+              },
+              {
+                path: "driverslist",
+                element: < AdminDriver/>
+                },
+              AdminDriver
+            
       ],
   
 }

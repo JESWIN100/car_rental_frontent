@@ -112,7 +112,7 @@ export default function UserHeader() {
         </div>
 
         {isMenuOpen && (
-          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 bg-white">
+          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 text-black bg-white">
             <li><a href="#" className="font-semibold">Home</a></li>
             <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
             <li><a href="/car/carslist" className="font-semibold">Rental Cars</a></li>

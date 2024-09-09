@@ -1,31 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RevenueChart from '../../components/ui/adminUi/RevenueChart'; // Adjust the path as needed
 import BookingsChart from '../../components/ui/adminUi/BookingChart'; // Adjust the path as needed
+import { axiosInstance } from '../../config/axiosInstance';
 
 export default function AdminDashboard() {
+  const [totalCars, setTotalCars] = useState(0);
+  const [totalBookings, setTotalBookings] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [carsResponse, bookingsResponse, usersResponse, reviewsResponse] = await Promise.all([
+          axiosInstance.get('/admin/total'),
+          axiosInstance.get('/admin/totalBooking'),
+          axiosInstance.get('/admin/totalUsers'),
+          axiosInstance.get('/admin/totalReview')
+        ]);
+
+        setTotalCars(carsResponse.data.total);
+        setTotalBookings(bookingsResponse.data.total);
+        setTotalUsers(usersResponse.data.total);
+        setTotalReviews(reviewsResponse.data.total);
+      } catch (error) {
+        console.error("Error fetching data", error);
+        setError('Failed to load data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div className="p-6 text-center">Loading...</div>;
+  if (error) return <div className="p-6 text-center text-red-600">{error}</div>;
+
   return (
-    
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Car Rental Admin Dashboard</h1>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold">Total Cars</h2>
-          <p className="text-3xl mt-2">120</p>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold">Active Bookings</h2>
-          <p className="text-3xl mt-2">32</p>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold">Total Users</h2>
-          <p className="text-3xl mt-2">540</p>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-bold">Total Revenue</h2>
-          <p className="text-3xl mt-2">$75,000</p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {[
+          { title: 'Total Cars', value: totalCars },
+          { title: 'Total Bookings', value: totalBookings },
+          { title: 'Total Users', value: totalUsers },
+          { title: 'Total Revenue', value: totalReviews }
+        ].map(({ title, value }) => (
+          <div key={title} className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
+            <h2 className="text-lg font-bold">{title}</h2>
+            <p className="text-3xl mt-2">{value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Recent Activity */}
@@ -71,21 +101,17 @@ export default function AdminDashboard() {
 
       {/* Quick Access Links */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-bold">Manage Cars</h2>
-          <p>Quick access to car management.</p>
-          <button className="mt-4 bg-blue-500 text-white p-2 rounded">Go to Cars</button>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-bold">Manage Bookings</h2>
-          <p>Quick access to booking management.</p>
-          <button className="mt-4 bg-blue-500 text-white p-2 rounded">Go to Bookings</button>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-bold">View Reports</h2>
-          <p>Access detailed reports and analytics.</p>
-          <button className="mt-4 bg-blue-500 text-white p-2 rounded">View Reports</button>
-        </div>
+        {[
+          { title: 'Manage Cars', description: 'Quick access to car management.', link: 'Go to Cars' },
+          { title: 'Manage Bookings', description: 'Quick access to booking management.', link: 'Go to Bookings' },
+          { title: 'View Reports', description: 'Access detailed reports and analytics.', link: 'View Reports' }
+        ].map(({ title, description, link }) => (
+          <div key={title} className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
+            <h2 className="text-xl font-bold">{title}</h2>
+            <p className="text-center mt-2">{description}</p>
+            <button className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">{link}</button>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,6 +1,21 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../config/axiosInstance";
 
+
+//admin create cars
+// export const createCar=async(data)=>{
+//   try {
+//     const response = await axiosInstance.post('admin/createCar', data, {
+//       withCredentials: true,
+//       });
+//       return response.data; // Return the response data correctly
+//       } catch (error) {
+//         toast.error(error.response?.data?.message || "An error occurred");
+//         console.error(error);
+//         }
+// }
+
+
 export const fetchCars = async (params) => {
   try {
     const response = await axiosInstance.get('/car/carList', {
@@ -48,9 +63,6 @@ export const fetchReview = async (id) => {
     console.error(error);
   }
 };
-
-
-
 
 
 export const searchCar = async (data) => {

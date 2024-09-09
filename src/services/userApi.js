@@ -41,7 +41,19 @@ export const userLogout=async(data)=>{
       }}
 
 
-export const userCheck=async()=>{
-
-
-}
+      export const fetchUserProfile = async (params) => {
+        try {
+          const response = await axiosInstance.get('/user/profile', {
+            params, // Use the `params` option for query parameters in GET requests
+            withCredentials: true,
+          });
+          console.log("fetchUserProfile",response.data); // Log the data from the response
+      
+          // Optionally, return the data if you need it for further processing
+          return response.data.data;
+        } catch (error) {
+          toast.error(error.response?.data?.message || "An error occurred");
+          console.error(error);
+        }
+      };
+    

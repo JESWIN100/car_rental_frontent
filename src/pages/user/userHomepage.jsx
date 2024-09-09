@@ -4,6 +4,7 @@ import HowItWork from './HowItWork';
 import Testimonials from './Testimonials';
 import CarRentalForm from '../../components/ui/SearchFoarm';
 import { Link } from 'react-router-dom';
+import video from '../../assets/videos/audimp4.mp4';
 
 export default function UserHomepage() {
   // State to manage the visibility of the CarRentalForm
@@ -17,14 +18,26 @@ export default function UserHomepage() {
   return (
     <div>
       {/* Hero Section */}
-      <section
-        className="relative flex items-center justify-center h-screen bg-cover bg-center text-center"
-        style={{
-          backgroundImage:
-            'url("https://cdn.tatlerasia.com/asiatatler/i/my/2018/11/05194917-merc2_cover_1600x1000.jpg")',
-        }}
-      >
-        <div className="absolute inset-0 bg-black opacity-50"></div> {/* Overlay */}
+      <section className="relative flex items-center justify-center h-screen text-center">
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source
+            src={video}
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+
+        {/* Content */}
         <div className="relative z-10 p-8 max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-4xl font-extrabold text-white mb-4">
             Drive Your Dreams: Premium Cars, Incredible Savings
@@ -38,23 +51,22 @@ export default function UserHomepage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               className="bg-blue-600 text-white py-3 px-8 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-300"
-              onClick={handleBookNowClick} // Toggle form visibility on click
+              onClick={handleBookNowClick}
             >
               Book Now!
             </button>
             <Link to={'/car/carslist'}>
-            <button className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-lg font-semibold shadow-md hover:bg-white hover:text-blue-600 transition duration-300">
-              See All Cars
-            </button>
+              <button className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-lg font-semibold shadow-md hover:bg-white hover:text-blue-600 transition duration-300">
+                See All Cars
+              </button>
             </Link>
-            
           </div>
         </div>
       </section>
 
       {/* Conditionally Render Car Rental Form */}
       {showForm && (
-        <section className="py-12 ">
+        <section className="py-12">
           <div className="max-w-4xl ml-64 items-start justify-center">
             <CarRentalForm />
           </div>

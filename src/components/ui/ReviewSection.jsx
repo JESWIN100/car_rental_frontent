@@ -16,6 +16,8 @@ export default function ReviewSection() {
       try {
         const response = await fetchReview(id);
         setReviews(response);
+        console.log("revi=======>",response);
+        
       } catch (error) {
         setError("Unable to fetch reviews. Please try again later.");
         console.error("Error fetching reviews:", error);
@@ -50,7 +52,7 @@ export default function ReviewSection() {
                 className="w-12 h-12 rounded-full mr-4 border-2 border-gray-300"
               />
               <div>
-                <div className="text-xl font-semibold text-gray-700">{review.user.name}</div>
+              {review.user ? review.user.name : 'User not found'}
                 <div className="text-gray-500 text-xs">{formattedDate}</div>
                 
               </div>

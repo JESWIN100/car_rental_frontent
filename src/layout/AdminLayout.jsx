@@ -6,9 +6,9 @@ import AdminFooter from '../components/admin/AdminFooter';
 export default function AdminLayout() {
   return (
     <div className="flex flex-col min-h-screen">
+      <AdminHeader />
       <div className="flex flex-grow">
-        <AdminHeader />
-        <div className="flex-grow ml-64 p-4">
+        <div className="flex-grow p-4 ml-0 lg:ml-64 transition-all duration-300">
           {/* Main content area */}
           <Outlet />
         </div>

@@ -21,7 +21,8 @@ export default function BillingSection() {
     
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred");
+      toast.error(error.response?.data?.message || error.response?.data?.data.error || "An error occurred");
+
       console.error(error);
     }
   };
@@ -59,31 +60,31 @@ export default function BillingSection() {
         <h2 className="text-xl font-semibold">Billing Info <span className="text-gray-500">Step 1 of 3</span></h2>
         <form id="billingForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="form-group">
-            <label htmlFor="firstName" className="block text-sm font-medium">First Name</label>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-950">First Name</label>
             <input
               type="text"
               id="firstName"
               {...register('firstName', { required: 'First name is required' })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               placeholder="Enter your first name"
               style={{ width: '100%', height: '40px' }} 
             />
             {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="lastName" className="block text-sm font-medium">Last Name</label>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-950">Last Name</label>
             <input
               type="text"
               id="lastName"
               {...register('lastName', { required: 'Last name is required' })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               placeholder="Enter your last name"
               style={{ width: '100%', height: '40px' }} 
             />
             {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="driverAge" className="block text-sm font-medium">Driver Age (age should be 18-70)</label>
+            <label htmlFor="driverAge" className="block text-sm font-medium text-gray-950">Driver Age (age should be 18-70)</label>
             <input
               type="number"
               id="driverAge"
@@ -92,31 +93,33 @@ export default function BillingSection() {
                 min: { value: 18, message: 'Age must be at least 18' },
                 max: { value: 70, message: 'Age must be 70 or below' }
               })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               placeholder="Enter your age"
               style={{ width: '100%', height: '40px' }} 
             />
             {errors.driverAge && <p className="text-red-500 text-sm">{errors.driverAge.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="mobileNumber" className="block text-sm font-medium">Mobile Number</label>
+            <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-950">Mobile Number</label>
             <input
               type="tel"
               id="mobileNumber"
               {...register('mobileNumber', { required: 'Mobile number is required' })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               placeholder="Enter your mobile number"
               style={{ width: '100%', height: '40px' }} 
             />
             {errors.mobileNumber && <p className="text-red-500 text-sm">{errors.mobileNumber.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="licenceNumber" className="block text-sm font-medium">Licence Number</label>
+            <label htmlFor="licenceNumber" className="block text-sm font-medium text-gray-950">Licence Number
+              (Licence number must be alphanumeric and between 6 to 15 character)
+            </label>
             <input
               type="text"
               id="licenceNumber"
               {...register('licenceNumber', { required: 'Licence number is required' })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               placeholder="Enter your licence number"
               style={{ width: '100%', height: '40px' }} 
             />

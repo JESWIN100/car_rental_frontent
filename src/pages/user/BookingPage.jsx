@@ -37,6 +37,12 @@ export default function BookingPage() {
     fetchData();
   }, [id]);
 
+
+
+
+
+
+
   const validateForms = useCallback(() => {
     const requiredFields = ['firstName', 'lastName', 'driverAge', 'licenceNumber', 'pickup-location', 'dropoff-location'];
 
@@ -97,13 +103,13 @@ export default function BookingPage() {
       toast.error("An error occurred during payment processing. Please try again.");
     }
   };
-
+ 
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
           <BillingSection />
-          <CarRentalInfo id={id} carId={carId} setTotalAmount={setTotalAmount} />
+          <CarRentalInfo id={id} carId={carId}  setTotalAmount={setTotalAmount} />
 
           <div className="bg-white p-4 rounded-lg shadow-md pt-10">
             <h2 className="text-xl font-semibold">
@@ -135,6 +141,17 @@ export default function BookingPage() {
                   I agree to our terms & conditions.
                 </label>
               </div>
+{/* Confirm Booking Checkbox */}
+{/* <div className="form-group mt-4">
+          <div className="form-control flex flex-row items-center">
+          <input type="checkbox" 
+              // onClick={handleConfirm}
+              className="checkbox checkbox-primary mr-2" />
+            <span className="label-text p-2">:Confirm Booking</span>
+            
+          </div>
+        </div> */}
+
               <button
                 type="submit"
                 className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"

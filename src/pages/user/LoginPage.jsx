@@ -19,6 +19,7 @@ const onSubmit = async (data) => {
   try {
     const { confirmPassword, ...loginData } = data;
     const response = await userLogin(loginData);
+console.log("login data",response);
 
     if (response) {
       toast.success(response.message); // Correctly access the message

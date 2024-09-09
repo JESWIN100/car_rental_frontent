@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchCarsDetails } from '../../services/carsApi';
-import { ShipWheel, UserRound, Car, Fuel, Calendar, PaintBucket, BookCheck, CalendarDays, ChartNoAxesGantt } from 'lucide-react';
+import { ShipWheel, UserRound, Car, Fuel, PaintBucket, BookCheck, CalendarDays, ChartNoAxesGantt } from 'lucide-react';
 import ReviewSection from '../../components/ui/ReviewSection';
 
 export default function CarsDetailsPage() {
