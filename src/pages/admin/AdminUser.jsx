@@ -28,24 +28,35 @@ export default function AdminUser() {
 
   const handleDelete = async (userId) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this user?');
-    
+  
     if (isConfirmed) {
       try {
-        const response = await axiosInstance.delete(`/admin/userByDelete/${userId}`);
+        const response = await axiosInstance.delete(`/admin/userByDelete/${userId}`, {
+          withCredentials: true, // Ensure cookies are sent with the request
+        });
+  
         const updatedUsers = users.filter((user) => user._id !== userId); // Remove the deleted user from the list
         setUsers(updatedUsers);
-        // setMessage('User deleted successfully!');
-        toast.success('User deleted successfully!')
+        toast.success('User deleted successfully!');
+  
+        // Optionally, you can reload the page after a delay
         // setTimeout(() => {
         //   window.location.reload();
         // }, 2000);
-        
+  
+        // Or, you can use setMessage to show a success message
+        // setMessage('User deleted successfully!');
+  
       } catch (error) {
+        toast.error(error.response?.data?.message || 'An error occurred while deleting the user.');
         console.error('Error deleting user:', error);
-        setMessage('An error occurred while deleting the user.');
+  
+        // Optionally, you can use setMessage to show an error message
+        // setMessage('An error occurred while deleting the user.');
       }
     }
   };
+  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

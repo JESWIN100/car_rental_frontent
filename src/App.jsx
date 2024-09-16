@@ -12,7 +12,9 @@ function App() {
     <>
       <div >
         <RouterProvider router={router}/>
-        <ToastContainer />
+        <ToastContainer
+        position="top-center"
+         />
       </div>
     </>
   )

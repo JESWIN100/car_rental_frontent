@@ -35,9 +35,9 @@ export default function ReviewSection() {
   const reviewsToDisplay = showAll ? reviews : reviews.slice(0, 3);
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-        Customer Reviews <span className="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-600">{reviews.length}</span>
+    <div className="w-full max-w-4xl mx-auto flex flex-col pt-16">
+      <h2 className="text-2xl font-bold mb-6 text-center ">
+        Customer Reviews <span className=" px-3 py-1 rounded-full text-sm 0">{reviews.length}</span>
       </h2>
       {reviewsToDisplay.map((review) => {
         const date = new Date(review.createdAt);

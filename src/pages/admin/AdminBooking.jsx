@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { confirmBooking, fetchBookings } from '../../services/bookingApi';
+import { confirmBooking, fetchAdminBookings, fetchBookings } from '../../services/bookingApi';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { axiosInstance } from '../../config/axiosInstance';
 
 export default function AdminBooking() {
   const [booking, setBooking] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [confirming, setConfirming] = useState(false); // New state for button disabling
-  const { id } = useParams(); // Fixed useParams call
+  const [confirming, setConfirming] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null); // Ensure only one selected booking
+
+  const { id } = useParams(); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchBookings();
+        const response = await fetchAdminBookings();
         setBooking(response);
-        console.log("booking========>", response);
+        console.log("Bookings fetched: ", response);
       } catch (error) {
         setError("Error fetching bookings");
         console.error("Error fetching bookings:", error);
@@ -23,7 +26,6 @@ export default function AdminBooking() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -33,14 +35,11 @@ export default function AdminBooking() {
       return;
     }
 
-    setConfirming(true); // Disable button
+    setConfirming(true);
     try {
       const response = await confirmBooking(bookingId);
-      console.log("confirmed=====>", response);
-      
       if (response.success) {
         toast.success(response.message);
-        // Refresh bookings after confirmation
         const updatedBookings = await fetchBookings();
         setBooking(updatedBookings);
       }
@@ -48,7 +47,71 @@ export default function AdminBooking() {
       toast.error(error.message);
       console.error(error);
     } finally {
-      setConfirming(false); // Enable button again
+      setConfirming(false);
+    }
+  };
+
+  const handleDeleteBooking = async (bookingId) => {
+    if (!bookingId) {
+      toast.error("Booking ID is not available.");
+      return;
+    }
+
+    const userConfirmed = window.confirm("Are you sure you want to delete this booking?");
+    if (!userConfirmed) {
+      toast.info("Booking deletion aborted.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.delete(`/booking/deletebookings/${bookingId}`);
+      toast.success("Booking deleted successfully!");
+      window.location.reload();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred while deleting the booking.");
+    }
+  };
+
+  const handleSelectBooking = (bookingId) => {
+    const bookingDetail = booking.find(car => car._id === bookingId);
+    setSelectedBooking(bookingDetail);
+  };
+
+  const handleSendEmail = async () => {
+    if (!selectedBooking) {
+      toast.error("No booking details selected.");
+      return;
+    }
+
+    const { carId, userId, pickupLocation, dropoffLocation, startDate, endDate, startTime, endTime, paymentStatus, status } = selectedBooking;
+
+    try {
+      await axiosInstance.post('nodemailer/create', {
+        to: userId.email,
+        subject: "Journey Details with Morent Car Rentals",
+        text: `Your car rental booking with Morent Car Rentals has been confirmed! Below are the details...`,
+        html: `
+        <p style="font-family: Arial, sans-serif; color: #333;">Dear ${userId.name},</p>
+          <p>Your car rental booking with Morent Car Rentals has been confirmed!</p>
+          <p>Below are the details of your rental:</p>
+          <ul>
+            <li>Car ID: ${carId._id}</li>
+            <li>Pickup Location: ${pickupLocation}</li>
+            <li>Drop-off Location: ${dropoffLocation}</li>
+            <li>Pickup Date: ${new Date(startDate).toLocaleDateString()} ${startTime}</li>
+            <li>Drop-off Date: ${new Date(endDate).toLocaleDateString()} ${endTime}</li>
+            <li>Payment Status: ${paymentStatus}</li>
+            <li>Status: ${status}</li>
+          </ul>
+          <p>Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.</p>
+          <p>Regards,<br/>Morent Car Rentals</p>
+        `
+      });
+
+      toast.success("Email sent successfully!");
+    } catch (error) {
+      console.error("Error sending email:", error.response?.data?.message || error.message);
+      toast.error("Error sending email.");
     }
   };
 
@@ -59,45 +122,56 @@ export default function AdminBooking() {
     <div>
       <section className="overflow-x-auto">
         <table className="table w-full">
-          {/* Table header */}
           <thead>
             <tr>
-              <th>#</th> {/* Index column */}
+              <th>
+                <label>
+                  <input type="checkbox" className="checkbox" />
+                </label>
+              </th>
+              <th>#</th>
               <th>Image</th>
               <th>Brand & Model</th>
               <th>Booking ID</th>
               <th>Car ID</th>
-              <th>User ID</th>
+              <th>User Name</th>
               <th>Pickup Location</th>
               <th>Dropoff Location</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Start Time</th>
               <th>End Time</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Booking Status</th>
+              <th>Payment Status</th>
+              <th>Action</th>
             </tr>
           </thead>
-          {/* Table body */}
           <tbody>
             {booking.map((car, index) => (
               <tr key={car._id}>
-                <td>{index + 1}</td> {/* Index column */}
+                <th>
+                  <label>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onClick={() => handleSelectBooking(car._id)}
+                    />
+                  </label>
+                </th>
+                <td>{index + 1}</td>
                 <td>
-                <div className="avatar">
-  <div className="mask mask-squircle h-12 w-12 overflow-hidden">
-    <img
-      src={car.carId.image || "https://img.daisyui.com/images/profile/demo/2@94.webp"}
-      alt="Avatar Tailwind CSS Component"
-      className="object-cover w-full h-full" />
-  </div>
-</div>
-
+                  <div className="avatar">
+                    <img
+                      src={car.carId.image || "default-image-url"}
+                      alt="Car"
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
                 </td>
                 <td>{car.carId.brand} {car.carId.model}</td>
                 <td>{car._id}</td>
                 <td>{car.carId._id}</td>
-                <td>{car.userId}</td>
+                <td>{car.userId.name}</td>
                 <td>{car.pickupLocation}</td>
                 <td>{car.dropoffLocation}</td>
                 <td>{new Date(car.startDate).toLocaleDateString()}</td>
@@ -105,40 +179,47 @@ export default function AdminBooking() {
                 <td>{car.startTime}</td>
                 <td>{car.endTime}</td>
                 <td>{car.status}</td>
+                <td>{car.paymentStatus}</td>
                 <td>
                   {car.status === 'Pending' && (
                     <button
                       className='btn btn-primary'
-                      onClick={() => handleConfirm(car._id)} // Pass booking ID
-                      disabled={confirming} // Disable button when confirming
+                      onClick={() => handleConfirm(car._id)}
+                      disabled={confirming}
                     >
                       {confirming ? "Confirming..." : "Confirm Booking"}
                     </button>
                   )}
+                  {car.status === 'Cancelled' && (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteBooking(car._id)}
+                    >
+                      Delete Booking
+                    </button>
+                  )}
+                </td>
+                <td>
+                <button
+        className='btn btn-outline btn-accent mt-4'
+        onClick={handleSendEmail}
+        disabled={!selectedBooking}
+      >
+        Send Email
+      </button>
                 </td>
               </tr>
             ))}
           </tbody>
-          {/* Table footer */}
-          {/* <tfoot>
-            <tr>
-              <th>#</th> 
-              <th>Image</th>
-              <th>Brand & Model</th>
-              <th>Booking ID</th>
-              <th>Car ID</th>
-              <th>Pickup Location</th>
-              <th>Dropoff Location</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </tfoot> */}
         </table>
       </section>
+      {/* <button
+        className='btn btn-outline btn-accent mt-4'
+        onClick={handleSendEmail}
+        disabled={!selectedBooking}
+      >
+        Send Email
+      </button> */}
     </div>
   );
 }

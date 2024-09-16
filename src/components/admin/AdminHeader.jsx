@@ -44,6 +44,9 @@ export default function AdminHeader() {
           <Link to="/admin/cars" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Manage Cars</Link>
           <Link to="/admin/review" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Manage Reviews</Link>
           <Link to="/admin/driverslist" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Manage Drivers</Link>
+          <Link to="/admin/contactlist" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Manage Contact Us</Link>
+
+          
           <button onClick={handleLogout} className="mt-auto hover:bg-red-600 p-2 rounded-md transition-colors">Logout</button>
         </nav>
       </div>

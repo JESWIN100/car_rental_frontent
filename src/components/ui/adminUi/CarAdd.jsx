@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'; // Assuming you're using react-toastify 
 import { useNavigate } from 'react-router-dom';
 import { createCar } from '../../../services/adminCarsApi';
 
-export default function CarAdd() {
+export default function CarAdding() {
 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -140,6 +140,36 @@ export default function CarAdd() {
               {errors.fuelType && <p className="text-red-500 text-sm mt-1">{errors.fuelType.message}</p>}
             </div>
 
+
+            <div className="mb-4">
+              <label className="block text-gray-700">Category</label>
+              <select
+                className={`form-select mt-1 block w-full border rounded-md ${errors.fuelType ? 'border-red-500' : ''}`}
+                {...register('Category', { required: 'Category is required' })}
+                style={{ width: '100%', height: '40px' }}
+              >
+                <option value="">Select a category</option>
+          <option value="Sedan">Sedan</option>
+          <option value="Luxury">Luxury</option>
+          <option value="SUV">SUV</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Coupe">Coupe</option>
+          <option value="Convertible">Convertible</option>
+          <option value="Wagon">Wagon</option>
+          <option value="Pickup Truck">Pickup Truck</option>
+          <option value="Minivan">Minivan</option>
+          <option value="Sports Car">Sports Car</option>
+          <option value="Electric">Electric</option>
+          <option value="Luxury SUV">Luxury SUV</option>
+          <option value="Hybrid SUV">Hybrid SUV</option>
+          <option value="Hybrid SUV">Hatchback</option>
+          
+              </select>
+              {errors.fuelType && <p className="text-red-500 text-sm mt-1">{errors.fuelType.message}</p>}
+            </div>
+
+
+
             <div className="mb-4">
               <label className="block text-gray-700">Mileage</label>
               <input
@@ -163,6 +193,63 @@ export default function CarAdd() {
               />
               {errors.color && <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>}
             </div>
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">Engine CC</label>
+              <input
+                type="text"
+                placeholder="Enter Engine CC"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('EngineCC', { required: 'Engine CC is required' })}
+                style={{ width: '100%', height: '40px' }}
+              />
+              {errors.color && <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>}
+            </div>
+
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">BootStrap</label>
+              <input
+                type="text"
+                placeholder="Enter BootStrap"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('BootSpace', { required: 'BootSpace is required' })}
+                style={{ width: '100%', height: '40px' }}
+              />
+              {errors.color && <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>}
+            </div>
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">Torque</label>
+              <input
+                type="text"
+                placeholder="Enter BootSpace"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('Torque', { required: 'Torque is required' })}
+                style={{ width: '100%', height: '40px' }}
+              />
+              {errors.color && <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>}
+            </div>
+
+
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">FuelCapacity</label>
+              <input
+                type="text"
+                placeholder="Enter FuelCapacity"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('FuelCapacity', { required: 'FuelCapacity is required' })}
+                style={{ width: '100%', height: '40px' }}
+              />
+              {errors.color && <p className="text-red-500 text-sm mt-1">{errors.color.message}</p>}
+            </div>
+
+
 
             <div className="mb-4">
               <label className="block text-gray-700">Registration Number</label>
@@ -193,7 +280,7 @@ export default function CarAdd() {
                   type="checkbox"
                   className="form-checkbox"
                   {...register('availability')}
-                  defaultChecked
+          
                 />
                 <span className="ml-2 text-gray-700">Available</span>
               </label>

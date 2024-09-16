@@ -36,8 +36,11 @@ const AdminCars = () => {
     const deleteCarData = async () => {
       try {
         if (carId) {
-          const response = await axiosInstance.delete(`/admin/carDelete/${carId}`);
-          const carData = response.data.data;
+          
+          const response = await axiosInstance.delete(`/admin/carDelete/${carId}`, {
+            withCredentials: true, 
+          });
+          const carData = response.data.data; 
           setMessage('Car deleted successfully!');
           window.location.reload(); 
         }
@@ -48,7 +51,7 @@ const AdminCars = () => {
     };
 
     deleteCarData();
-  }, [carId]);
+  }, [carId]); // Dependencies array ensures effect runs when carId changes
 
   return (
     <div className='flex flex-col gap-5 p-5'>

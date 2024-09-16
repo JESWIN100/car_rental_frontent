@@ -36,10 +36,12 @@ export default function AdminReview() {
 
   const handleDelete = async (reviewId) => {
     try {
-      const response = await axiosInstance.delete(`/admin/deleteReview/${reviewId}`);
+      const response = await axiosInstance.delete(`/admin/deleteReview/${reviewId}`, {
+        withCredentials: true, // Explicitly set for this request
+      });
       setMessage(response.data.message);
       setError('');
-      toast.success("Review Deleted Scuessfull")
+      toast.success("Review Deleted Successfully");
       setReviews((prevReviews) =>
         prevReviews.filter((review) => review._id !== reviewId)
       );
@@ -48,12 +50,13 @@ export default function AdminReview() {
       setError('Failed to delete the review.');
       setMessage('');
       console.log(err);
-      
     }
   };
+  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+  if (reviews.length === 0) return <p>No reviews available.</p>;
 
   return (
     <div>
@@ -80,14 +83,14 @@ export default function AdminReview() {
                 <tr key={review._id}>
                   <td>
                     <img
-                      src={review.car.image[0] || 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'}
-                      alt={review.car.brand || 'Car image'}
+                      src={review.car?.image || 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'}
+                      alt={review.car?.brand || 'Car image'}
                       className="w-14 h-14 object-cover rounded-full"
                     />
                   </td>
-                  <td>{review.car.brand}</td>
+                  <td>{review.car?.brand || 'Anonymous Car'}</td>
                   <td>{review._id}</td>
-                  <td>{review.car.model}</td>
+                  <td>{review.car?.model || 'Unknown Model'}</td>
                   <td>{review.reviewText}</td>
                   <td>{review.user?.name || 'Anonymous'}</td>
                   <td>
@@ -117,7 +120,6 @@ export default function AdminReview() {
             </tbody>
           </table>
         </div>
-        
       </section>
     </div>
   );

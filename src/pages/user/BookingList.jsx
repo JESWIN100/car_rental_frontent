@@ -208,7 +208,7 @@ export default function BookingList() {
                     <p className="text-gray-600">Capacity: {car.carId.capacity} seats</p>
                     <p className="text-gray-600">Booked on: {new Date(car.startDate).toLocaleDateString()}</p>
                     <div className="card-actions justify-end mt-4">
-                      {car.status !== 'Cancelled' && (
+                      {(car.status !== 'Cancelled'  && car.status !== 'Completed') && (
                         <button
                           className="btn btn-error"
                           onClick={() => cancelBookingHandler(car._id)}
@@ -216,14 +216,14 @@ export default function BookingList() {
                           Cancel Booking
                         </button>
                       )}
-                      {car.status === 'Cancelled' && (
+                      {/* {car.status === 'Cancelled' && (
                         <button
                           className="btn btn-danger ml-2"
                           onClick={() => DeleteBookingHandler(car._id)}
                         >
                           Delete Booking
                         </button>
-                      )}
+                      )} */}
                         {(car.status === 'Cancelled' || car.status === 'Completed') && (
                     <div className="review-form ">
                       <ReviewForm carId={car.carId._id} userId={userId} />

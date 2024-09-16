@@ -54,18 +54,34 @@ export default function CarRentalInfo({ setTotalAmount}) { // Accept setTotalAmo
     }
   };
 
-  // Handle radio button change
-  const handleRadioChange = async () => {
-    const isFormValid = await trigger();
-    if (isFormValid) {
-      handleSubmit(onSubmit)();
-      setIsRadioChecked(false);
-      
-    } else {
-      toast.error("Please fill in all required fields correctly.");
-    }
-  };
+// Updated handleRadioChange function
+const handleRadioChange = async () => {
+  // If the radio is already checked, prevent further action
+  if (isRadioChecked) {
+    toast.error("You have already submitted the form.");
+    setTimeout(()=>{
+      handleFormReset()
+    },5000)
+    return;
+  }
+
+  const isFormValid = await trigger();
+  if (isFormValid) {
+    handleSubmit(onSubmit)();
+    setIsRadioChecked(true); // Set the radio to checked
    
+  } else {
+    toast.error("Please fill in all required fields correctly.");
+  }
+};
+
+   
+  // Reset form fields
+  function handleFormReset() {
+    reset();
+    setIsRadioChecked(false);
+  }
+
 
 
   useEffect(() => {
@@ -122,11 +138,6 @@ fetchUser()
     }
   };
 
-  // Reset form fields
-  function handleFormReset() {
-    reset();
-    setIsRadioChecked(false);
-  }
 
   const citiesInKerala = [
     'Thiruvananthapuram', 'Kochi', 'Kollam', 'Alappuzha', 'Palakkad',
@@ -137,20 +148,24 @@ fetchUser()
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md pt-10">
-  <h2 className="text-xl font-semibold mb-4 text-gray-700">
+      <h2 className="text-xl font-semibold mb-6">Booking Info <span className="text-gray-500">Step 2 of 3</span></h2>
+     <div className='form-group mt-4'>
+  <h2 className="form-control flex flex-row items-center">
     <input
-      type="radio"
-      id="radio-button"
-      className="form-control mr-2"
+      type="checkbox"
+      className="toggle toggle-success mr-2 "
       checked={isRadioChecked}
+      
       onChange={() => setIsRadioChecked(!isRadioChecked)}
       onClick={handleRadioChange}
-      
     />
-    Car Rental Information <span className="text-gray-500">Step 2 of 3</span>
+    <span className="ml-2  text-gray-900 text-base ">Submit Form</span>
   </h2>
+</div>
+
+ 
   
-  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-5">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Date and Time Fields */}
       <div className="form-group">
@@ -162,6 +177,7 @@ fetchUser()
           id="startDate"
           {...register('startDate', { required: true })}
           className={`form-control bg-white text-gray-950 ${errors.startDate ? 'border-red-500' : 'border-gray-300'}`}
+          min={new Date().toISOString().split('T')[0]} // sets today's date as the minimum
         />
         {errors.startDate && <span className="text-red-500 text-sm">Start date is required.</span>}
       </div>
@@ -188,6 +204,7 @@ fetchUser()
           id="endDate"
           {...register('endDate', { required: true })}
           className={`form-control bg-white text-gray-950 ${errors.endDate ? 'border-red-500' : 'border-gray-300'}`}
+          min={new Date().toISOString().split('T')[0]} // sets today's date as the minimum
         />
         {errors.endDate && <span className="text-red-500 text-sm">End date is required.</span>}
       </div>

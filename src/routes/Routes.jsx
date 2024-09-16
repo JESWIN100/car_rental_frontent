@@ -25,7 +25,7 @@ import AdminLoginPage from "../pages/admin/AdminLoginPage"
 import AdminLayout from "../layout/AdminLayout"
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage"
 import AdminCars from "../pages/admin/AdminCars"
-import CarAdd from "../components/ui/adminUi/CarAdd"
+import CarAdding from "../components/ui/adminUi/CarAdd"
 import UpdateCar from "../components/ui/adminUi/UpdateCar"
 import AdminBooking from "../pages/admin/AdminBooking"
 import AdminReview from "../pages/admin/AdminReview"
@@ -33,6 +33,11 @@ import AdminUser from "../pages/admin/AdminUser"
 import AdminDriver from "../pages/admin/AdminDriver"
 import WishListPage from "../pages/user/WishListPage"
 import AdminErrorPage from "../pages/admin/AdminErrorPage"
+import PaymetFailed from "../pages/user/PaymetFailed"
+import ContactUsPage from "../pages/user/ContactUsPage"
+import AdminContactList from "../components/ui/adminUi/AdminContactList"
+import { AdminAuth } from "./protectedRoutes/AdminAuth"
+
 // const { id } = useParams();
 export const router = createBrowserRouter([
 
@@ -95,10 +100,7 @@ export const router = createBrowserRouter([
         path: "home",
         element: <UserHomepage />
       },
-      {
-        path: "wishlist",
-        element: <WishListPage />
-      },
+    
       {
         path: "bf",
         element: <BedforeDetails />
@@ -138,9 +140,8 @@ export const router = createBrowserRouter([
               element:<CarsDetailsPage/>
             },
             {
-                path:"wishlist",
-                element:<WhishListPage/>
-
+              path: "wishlist",
+              element: <WishListPage />
             },
             {
               path: "carBookInfo/:CarId/:userId",
@@ -170,9 +171,19 @@ export const router = createBrowserRouter([
           path: "sucess",
           element: <PayemtSuccessPage/>
 
-          }
+          },
+          {
+            path: "failed",
+            element: <PaymetFailed/>
+  
+            },
+            {
+              path: "contact",
+              element: < ContactUsPage/>
+    
+              }
           
-          
+           
       ],
   
 },
@@ -196,7 +207,7 @@ export const router = createBrowserRouter([
 },
 {
   path: "/admin",
-  element:<AdminLayout />, 
+  element:<AdminAuth><AdminLayout /></AdminAuth>, 
   // errorElement:<AdminErrorPage/>,
 
   children: [
@@ -211,7 +222,7 @@ export const router = createBrowserRouter([
     },
     {
       path: "addcars",
-      element: <CarAdd/>
+      element: <CarAdding/>
       },
       {
         path: "updatecar/:carId",
@@ -233,7 +244,11 @@ export const router = createBrowserRouter([
                 path: "driverslist",
                 element: < AdminDriver/>
                 },
-              AdminDriver
+                {
+                  path: "contactlist",
+                  element: < AdminContactList/>
+                  },
+                
             
       ],
   

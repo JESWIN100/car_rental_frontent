@@ -65,7 +65,7 @@ export default function WishListPage() {
                 <img 
                   src={car.image[0] || '/default-image.jpg'} 
                   alt={car.model || 'Car Image'} 
-                  className="w-full h-32 object-cover" 
+                  className="w-full h-32 object-contain" 
                 />
                 <div className="p-4">
                   <h3 className="text-xl font-semibold mb-2">
@@ -76,6 +76,7 @@ export default function WishListPage() {
                   <p className="text-gray-600 mb-2">Fuel Type: {car.fuelType || 'N/A'}</p>
                   <p className="text-gray-600 mb-2">Transmission: {car.transmission || 'N/A'}</p>
                   <p className="text-lg font-bold">Price per day: ${car.pricePerDay || 'N/A'}</p>
+                  
                 </div>
               </div>
             ) : null

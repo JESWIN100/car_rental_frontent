@@ -22,7 +22,7 @@ export default function BillingSection() {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.data.error || "An error occurred");
-
+toast.error(error.response?.data?.data.error)
       console.error(error);
     }
   };
@@ -32,7 +32,8 @@ export default function BillingSection() {
     const isFormValid = await trigger(); // Trigger validation
     if (isFormValid) {
       document.getElementById('billingForm').requestSubmit(); // Manually submit the form
-      setIsRadioChecked(false); // Reset the radio button
+      setIsRadioChecked(true); // Reset the radio button
+      
     } else {
       toast.error("Please fill in all required fields correctly."); // Display error message
     }
@@ -43,21 +44,30 @@ export default function BillingSection() {
     setIsRadioChecked(false); // Reset radio button
   };
 
+
+
+  
+
   return (
     <div>
       <div className="bg-white p-4 rounded-lg shadow-md">
-        <div className="form-group">
-          <input
-            type="radio"
-            id="submitRadio"
-            name="submitRadio"
-            checked={isRadioChecked}
-            onChange={() => setIsRadioChecked(!isRadioChecked)}
-            onClick={handleRadioChange}
-          />
-          <label htmlFor="submitRadio">Submit Form</label>
-        </div>
-        <h2 className="text-xl font-semibold">Billing Info <span className="text-gray-500">Step 1 of 3</span></h2>
+     
+
+        <h2 className="text-xl font-semibold mb-6">Driver Info <span className="text-gray-500">Step 1 of 3</span></h2>
+        
+        <div className="form-group mb-6">
+    <label className="inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        id="submitRadio"
+        name="submitRadio"
+        className="toggle toggle-success"
+        checked={isRadioChecked}
+        onChange={handleRadioChange}
+      />
+      <span className="ml-3 text-gray-900 ">Submit Form</span>
+    </label>
+  </div>
         <form id="billingForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="form-group">
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-950">First Name</label>

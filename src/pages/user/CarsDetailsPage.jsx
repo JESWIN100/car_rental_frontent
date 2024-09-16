@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchCarsDetails } from '../../services/carsApi';
-import { ShipWheel, UserRound, Car, Fuel, PaintBucket, BookCheck, CalendarDays, ChartNoAxesGantt } from 'lucide-react';
+import { FaCar, FaCalendarAlt, FaGasPump, FaPaintBrush, FaUser, FaGavel, FaTachometerAlt } from 'react-icons/fa';
 import ReviewSection from '../../components/ui/ReviewSection';
 
 export default function CarsDetailsPage() {
@@ -30,22 +30,22 @@ export default function CarsDetailsPage() {
   if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
 
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className="container mx-auto py-12 px-6">
       <div className="grid md:grid-cols-2 gap-8">
         {/* Main Car Image and Details */}
-        <section className="bg-white shadow-lg rounded-lg p-6">
-          <div className="mb-6 text-center md:text-left">
-            <h2 className="text-4xl font-bold text-gray-800">{carDetails?.brand}</h2>
-            <p className="text-xl text-gray-600">{carDetails?.model}</p>
+        <section className=" shadow-lg rounded-lg p-8">
+          <div className="mb-8 text-center md:text-left">
+            <h2 className="text-5xl font-bold  mb-2">{carDetails?.brand}</h2>
+            <p className="text-2xl ">{carDetails?.model}</p>
           </div>
-          
+
           <div className="flex flex-col items-center">
             <img
               src={carDetails?.image}
               alt={carDetails?.name}
-              className="w-full h-auto rounded-lg mb-6 shadow-md"
+              className="w-full h-auto rounded-lg mb-6 shadow-lg border border-gray-200"
             />
-            <div className="flex justify-center space-x-4">
+            <div className="flex space-x-4 overflow-x-auto">
               {carDetails?.additionalImages?.map((img, index) => (
                 <img
                   key={index}
@@ -58,71 +58,120 @@ export default function CarsDetailsPage() {
           </div>
         </section>
 
-        {/* Car Specifications and Rent Section */}
-<section className="bg-white shadow-lg rounded-lg p-6">
-  <h2 className="text-3xl font-semibold text-gray-700 mb-6">Car Specifications</h2>
-  
-  {/* Car Description */}
-  <p className="text-base text-gray-600 mb-6">
-    {carDetails?.description}
-  </p>
+        {/* Car Specifications and Features Section */}
+        <section className="shadow-lg rounded-lg p-8">
+          <h2 className="text-4xl font-semibold mb-6">Car Specifications</h2>
+          
+          {/* Car Description */}
+          <p className="text-base  mb-8">
+            {carDetails?.description}
+          </p>
 
-  {/* Specifications Grid */}
-  <div className="grid grid-cols-2 gap-4 text-gray-600 mb-8">
-    <div className="flex items-center space-x-2">
-      <UserRound className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.capacity} seats</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <ShipWheel className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.transmission}</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <Car className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.registrationNumber}</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <Fuel className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.fuelType}</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <PaintBucket className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.color}</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <CalendarDays className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.year}</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <ChartNoAxesGantt className="w-6 h-6 text-gray-500" />
-      <span>{carDetails?.mileage} mileage</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <BookCheck className="w-6 h-6 text-gray-500" />
-      <span className={carDetails?.availability ? "text-green-600" : "text-red-600"}>
-        {carDetails?.availability ? "Available" : "Not Available"}
-      </span>
-    </div>
-  </div>
+          {/* Specifications Table */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="p-4 border border-gray-200 rounded-lg">
+              <h1 className="text-2xl font-semibold  mb-4">Key Specifications of {carDetails.brand} {carDetails.model}</h1>
+              <table className="w-full border-collapse mb-4">
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">ARAI Mileage</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.mileage} kmpl</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Engine Displacement</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.EngineCC} cc</td>
+                  </tr>
+                  {/* <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Max Power</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.MaxPower}rpm</td>
+                  </tr> */}
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Seating Capacity</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.capacity} Person</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Boot Space</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.BootSpace}Litres</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Body Type</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.Category}</td>
+                  </tr>
+                </tbody>
+              </table>
 
-  {/* Price and Rent Button */}
-  <p className="text-2xl font-bold text-blue-700 mb-4">{carDetails?.pricePerDay}₹ / day</p>
-  <Link to={`/payment/book/${carDetails._id}`}>
-  <button className="mt-4 bg-blue-700 text-white py-2 px-6 rounded-lg hover:bg-blue-800 transition-colors shadow-md">
-    Rent Now
-  </button>
-  </Link>
-  
-</section>
+              {/* <h2 className="text-xl font-semibold text-gray-700 mb-4">Key Features of {carDetails.brand} {carDetails.model}</h2>
+              <ul className="list-none p-0 m-0">
+                <li className="flex items-center mb-2">Power Steering <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Anti-lock Braking System (ABS) <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Driver Airbag <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Automatic Climate Control <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Multi-function Steering Wheel <span className="tick"></span></li>
+              </ul> */}
+            </div>
 
+            <div className="p-4 border border-gray-200 rounded-lg">
+              <h2 className="text-xl font-semibold  mb-4">Additional Specifications</h2>
+              <table className="w-full border-collapse mb-4">
+                <tbody>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Fuel Type</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.fuelType}</td>
+                  </tr>
+                  {/* <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">No. of Cylinders</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.CylinderNo}</td>
+                  </tr> */}
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Max Torque</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.Torque}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Transmission Type</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.transmission}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Fuel Tank Capacity</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.FuelCapacity} Litres</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4 border-b border-gray-200">Year</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{carDetails.year} </td>
+                  </tr>
+                  <tr>
+  <td className="py-2 px-4 border-b border-gray-200">Availability</td>
+  <td className="py-2 px-4 border-b border-gray-200">
+    {carDetails.availability ? "Available" : "Not Available"}
+  </td>
+</tr>
 
+                </tbody>
+              </table>
+
+              {/* <h2 className="text-xl font-semibold text-gray-700 mb-4">Additional Features</h2>
+              <ul className="list-none p-0 m-0">
+                <li className="flex items-center mb-2">Power Windows Front <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Air Conditioner <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Passenger Airbag <span className="tick"></span></li>
+                <li className="flex items-center mb-2">Alloy Wheels <span className="tick"></span></li>
+              </ul> */}
+            </div>
+          </div>
+
+          {/* Price and Rent Button */}
+          <div className="flex items-center justify-between">
+            <p className="text-3xl font-bold ">{carDetails?.pricePerDay}₹ / day</p>
+            <Link to={`/payment/book/${carDetails._id}`}>
+              <button className="bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors shadow-lg">
+                Rent Now
+              </button>
+            </Link>
+          </div>
+        </section>
       </div>
 
-      {/* Review Section below */}
-      <section className="mt-10 bg-white shadow-lg rounded-lg p-6">
-        {/* <h2 className="text-3xl font-semibold text-gray-700 mb-6">Customer Reviews</h2> */}
-        <ReviewSection />
-      </section>
+      {/* Reviews Section */}
+      <ReviewSection carId={carDetails?._id} />
     </div>
   );
 }

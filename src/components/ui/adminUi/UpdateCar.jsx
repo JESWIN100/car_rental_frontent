@@ -14,7 +14,9 @@ const UpdateCar = () => {
     if (carId) {
       const fetchCarData = async () => {
         try {
-          const response = await axiosInstance.get(`/admin/carsById/${carId}`);
+          const response = await axiosInstance.get(`/admin/carsById/${carId}`, {
+            withCredentials: true, // Add this line to include credentials
+          });
           const carData = response.data.data;
 
           // Set form values with fetched car data
@@ -49,6 +51,7 @@ const UpdateCar = () => {
   
       const response = await axiosInstance.put(`/admin/carUpdate/${carId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
       });
   console.log(response);
   
@@ -56,6 +59,7 @@ const UpdateCar = () => {
       navigate('/admin/cars');
       setMessage('Car details updated successfully!');
     } catch (error) {
+      toast.error(error.response.data.message)
       console.error('Error updating car details:', error);
       setMessage('Failed to update car details. Please check the data and try again.');
     }
@@ -138,6 +142,36 @@ const UpdateCar = () => {
               placeholder="Fuel Type"
             />
           </div>
+
+          <div className="mb-4">
+              <label className="block text-gray-700">Category</label>
+              <select
+                className={`form-select mt-1 block w-full border rounded-md ${errors.fuelType ? 'border-red-500' : ''}`}
+                {...register('Category')}
+                style={{ width: '100%', height: '40px' }}
+              >
+                <option value="">Select a category</option>
+          <option value="Sedan">Sedan</option>
+          <option value="Luxury">Luxury</option>
+          <option value="SUV">SUV</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Coupe">Coupe</option>
+          <option value="Convertible">Convertible</option>
+          <option value="Wagon">Wagon</option>
+          <option value="Pickup Truck">Pickup Truck</option>
+          <option value="Minivan">Minivan</option>
+          <option value="Sports Car">Sports Car</option>
+          <option value="Electric">Electric</option>
+          <option value="Luxury SUV">Luxury SUV</option>
+          <option value="Hybrid SUV">Hybrid SUV</option>
+          <option value="Hatchback">Hatchback</option>
+          
+              </select>
+             
+            </div>
+
+
+
           <div className="mb-4">
             <label className="block text-gray-700">Mileage:</label>
             <input
@@ -153,7 +187,68 @@ const UpdateCar = () => {
               className="border p-2 w-full"
               placeholder="Color"
             />
+
           </div>
+
+
+
+          <div className="mb-4">
+              <label className="block text-gray-700">Engine CC</label>
+              <input
+                type="text"
+                placeholder="Enter Engine CC"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('EngineCC')}
+                style={{ width: '100%', height: '40px' }}
+              />
+             
+            </div>
+
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">BootStrap</label>
+              <input
+                type="text"
+                placeholder="Enter BootStrap"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('BootSpace')}
+                style={{ width: '100%', height: '40px' }}
+              />
+              
+            </div>
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">Torque</label>
+              <input
+                type="text"
+                placeholder="Enter BootSpace"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('Torque')}
+                style={{ width: '100%', height: '40px' }}
+              />
+              
+            </div>
+
+
+
+
+<div className="mb-4">
+              <label className="block text-gray-700">FuelCapacity</label>
+              <input
+                type="text"
+                placeholder="Enter FuelCapacity"
+                className={`form-input mt-1 block w-full border rounded-md ${errors.color ? 'border-red-500' : ''}`}
+                {...register('FuelCapacity')}
+                style={{ width: '100%', height: '40px' }}
+              />
+            
+            </div>
+
+
+
+
           <div className="mb-4">
             <label className="block text-gray-700">Registration Number:</label>
             <input

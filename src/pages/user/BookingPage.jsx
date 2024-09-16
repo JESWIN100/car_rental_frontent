@@ -18,6 +18,11 @@ export default function BookingPage() {
   const [termsConsent, setTermsConsent] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [mailer, setMailer] = useState({});
+  const [emailStatus, setEmailStatus] = useState(''); 
+  const [user,setUser]=useState({})
+  const [UserBooking, setUserBooking] = useState();
+  const [lastBooking, setLastBooking] = useState(null);
   const { id, carId } = useParams();
 
   useEffect(() => {
@@ -25,6 +30,7 @@ export default function BookingPage() {
       try {
         const carResponse = await fetchCarsDetails(id);
         const bookingResponse = await fetchBookingDetails(id);
+        
         setCarDetails(carResponse);
         setBookingDetails(bookingResponse);
         console.log("Car details:", carResponse);
@@ -39,9 +45,53 @@ export default function BookingPage() {
 
 
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axiosInstance.get('user/profile', {
+          withCredentials: true,
+        });
+        setUser(response?.data?.data || {});
+        console.log("user===>",response.data.data);
+        
+      } catch (error) {
+        setError("Error fetching user profile.");
+        console.log("Error fetching user profile:", error.response?.data?.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  
+
+  // useEffect(() => {
+  //   if (!user._id) return; // Exit if user ID is not available
+
+  //   const fetchBookingByUserId = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(`/booking/carUser/${user._id}`, { withCredentials: true });
+  //       const bookings = response?.data?.data || [];
+  //       setUserBooking(bookings);
+
+  //       if (bookings.length > 0) {
+  //         const lastBooking = bookings[bookings.length - 1];
+  //         setLastBooking(lastBooking);
+  //       }
+  //     } catch (error) {
+  //       console.log("Error fetching user bookings:", error.response?.data?.message || error.message);
+  //     }
+  //   };
+
+  //   fetchBookingByUserId();
+  //   const intervalId = setInterval(fetchBookingByUserId, 5000); // Poll every 5 seconds
+
+  //   return () => clearInterval(intervalId);
+  // }, [user._id]);
 
 
-
+  
 
   const validateForms = useCallback(() => {
     const requiredFields = ['firstName', 'lastName', 'driverAge', 'licenceNumber', 'pickup-location', 'dropoff-location'];
@@ -104,69 +154,189 @@ export default function BookingPage() {
     }
   };
  
+
+ 
+
+//   const handleSendEmail = async () => {
+//     try {
+      
+//       const response = await axiosInstance.post('nodemailer/create', {
+//         to: user.email, // Send email to the user's email
+//         subject: "Journey Details with Morent Car Rentals",
+//         text: `Dear ${user.name},
+//   Your car rental booking with Morent Car Rentals has been confirmed!
+//   Below are the details of your rental:
+  
+//   Booking Details for ${bookingDetails.createdAt}
+//   Booking Number: 789654
+//   Car: ${carDetails.model} ${carDetails.brand} ${carDetails.year}
+//   License Plate: ${carDetails.registrationNumber}
+//   Fuel Type: ${carDetails.fuelType}
+//   Capacity: ${carDetails.capacity} passengers
+  
+//   Rental Period:
+//   Pickup Date & Time: 19/07/2024, 08:00 AM
+//   Drop-off Date & Time: 22/07/2024, 08:00 AM
+  
+//   Pickup Location:
+//   XYZ Car Rentals, Neeleswaram
+//   Contact: 8281765533
+  
+//   Payment Details:
+//   Total Cost: $150
+  
+//   Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.
+
+//   Regards,
+//   Morent Car Rentals`,
+//       html: `
+//        <p style="font-family: Arial, sans-serif; color: #333;">
+//   Dear ${user.name},
+// </p>
+
+// <p style="font-family: Arial, sans-serif; color: #333;">
+//   🚗 Your car rental booking with <strong>Morent Car Rentals</strong> has been confirmed!
+// </p>
+
+// <h4 style="font-family: Arial, sans-serif; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+//   Booking Details for ${new Date(lastBooking.createdAt).toLocaleDateString()} 🎫
+// </h4>
+// <ul style="font-family: Arial, sans-serif; color: #333; list-style-type: none; padding-left: 0;">
+//   <li><strong>Booking Number:</strong> 789654</li>
+//   <li><strong>Car:</strong> ${carDetails.model} ${carDetails.brand} (${carDetails.year})</li>
+//   <li><strong>License Plate:</strong> ${carDetails.registrationNumber}</li>
+//   <li><strong>Fuel Type:</strong> ${carDetails.fuelType}</li>
+//   <li><strong>Capacity:</strong> ${carDetails.capacity} passengers</li>
+// </ul>
+
+// <h4 style="font-family: Arial, sans-serif; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+//   Rental Period 📅
+// </h4>
+// <ul style="font-family: Arial, sans-serif; color: #333; list-style-type: none; padding-left: 0;">
+//   <li><strong>Pickup Date & Time:</strong> ${new Date(lastBooking.startDate).toLocaleDateString()}, ${new Date(lastBooking.startDate).toLocaleTimeString()}</li>
+//   <li><strong>Drop-off Date & Time:</strong> ${new Date(lastBooking.endDate).toLocaleDateString()}, ${new Date(lastBooking.endDate).toLocaleTimeString()}</li>
+// </ul>
+
+// <h4 style="font-family: Arial, sans-serif; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+//   Pickup Location 🗺
+// </h4>
+// <ul style="font-family: Arial, sans-serif; color: #333; list-style-type: none; padding-left: 0;">
+//   <li><strong>Location:</strong> ${lastBooking.pickupLocation}</li>
+//   <li><strong>Contact:</strong> ${user.phone}</li>
+// </ul>
+
+// <h4 style="font-family: Arial, sans-serif; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+//   Payment Details 💳
+// </h4>
+// <p style="font-family: Arial, sans-serif; color: #333;">
+//   <strong>Total Cost:</strong> ₹700
+// </p>
+
+// <p style="font-family: Arial, sans-serif; color: #333;">
+//   Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.
+// </p>
+
+// <p style="font-family: Arial, sans-serif; color: #333;">
+//   Regards,<br />
+//   <strong>Morent Car Rentals</strong>
+// </p>
+
+        
+//       `
+
+
+//       });
+      
+//       setMailer(response?.data || {});
+//       setEmailStatus('Email sent successfully!');
+//       toast.success("Email sent successfully!");
+//     } catch (error) {
+//       console.log(error);
+//       setEmailStatus('Error sending email.');
+//       console.error("Error sending email:", error.response?.data?.message || error.message);
+//     }
+//   };
+  
+
+
+
+
   return (
-    <div className="container mx-auto p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-4">
-          <BillingSection />
-          <CarRentalInfo id={id} carId={carId}  setTotalAmount={setTotalAmount} />
+<div className="container mx-auto p-6 md:p-8">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-6">
+      <BillingSection />
+      <CarRentalInfo id={id} carId={carId} setTotalAmount={setTotalAmount} />
 
-          <div className="bg-white p-4 rounded-lg shadow-md pt-10">
-            <h2 className="text-xl font-semibold">
-              Confirmation <span className="text-gray-500">Step 3 of 3</span>
-            </h2>
-            <h3>Total Rental Amount: ₹{totalAmount.toFixed(2)}</h3>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div className="form-group flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="marketing"
-                  className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  checked={marketingConsent}
-                  onChange={() => setMarketingConsent(!marketingConsent)}
-                />
-                <label htmlFor="marketing" className="text-sm font-medium">
-                  I agree to receive marketing and newsletter emails. No spam, promised!
-                </label>
-              </div>
-              <div className="form-group flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  checked={termsConsent}
-                  onChange={() => setTermsConsent(!termsConsent)}
-                />
-                <label htmlFor="terms" className="text-indigo-600 hover:underline">
-                  I agree to our terms & conditions.
-                </label>
-              </div>
-{/* Confirm Booking Checkbox */}
-{/* <div className="form-group mt-4">
-          <div className="form-control flex flex-row items-center">
-          <input type="checkbox" 
-              // onClick={handleConfirm}
-              className="checkbox checkbox-primary mr-2" />
-            <span className="label-text p-2">:Confirm Booking</span>
-            
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-2">
+          Confirmation <span className="text-gray-600">Step 3 of 3</span>
+        </h2>
+        <h3 className="text-lg font-semibold mb-4">
+          Total Rental Amount: <span className="text-gray-800">₹{totalAmount.toFixed(2)}</span>
+        </h3>
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          <div className="flex items-center space-x-3">
+            <input
+              type="checkbox"
+              id="marketing"
+              className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              checked={marketingConsent}
+              onChange={() => setMarketingConsent(!marketingConsent)}
+            />
+            <label htmlFor="marketing" className="text-sm font-medium">
+              I agree to receive marketing and newsletter emails. No spam, promised!
+            </label>
           </div>
-        </div> */}
-
-              <button
-                type="submit"
-                className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                onClick={makePayment}
-                disabled={isButtonDisabled}
+          <div className="flex items-center space-x-3">
+            <input
+              type="checkbox"
+              id="terms"
+              className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              checked={termsConsent}
+              onChange={() => setTermsConsent(!termsConsent)}
+            />
+            <label htmlFor="terms" className="text-sm">
+              I agree to our{" "}
+              <a
+                href="/terms-and-conditions" // Update this URL to your terms and conditions page
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline"
               >
-                Rent Now
-              </button>
-            </form>
+                terms & conditions
+              </a>
+              .
+            </label>
           </div>
-        </div>
-        <div className='hidden md:block'>
-          <CarSummary />
-        </div>
+          {/* <div className="flex items-center space-x-3 mt-4">
+            <input
+              type="checkbox"
+              id="confirmBooking"
+              className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              // onClick={handleConfirm}
+            />
+            <label htmlFor="confirmBooking" className="text-sm font-medium">
+              Confirm Booking
+            </label>
+          </div> */}
+          <button
+            type="submit"
+            className="w-1/3 bg-indigo-600 text-white py-3 rounded-2xl shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50"
+            onClick={() => { makePayment(); }}
+            disabled={isButtonDisabled}
+          >
+            Rent Now
+          </button>
+        </form>
       </div>
     </div>
+    <div className='hidden md:block'>
+      <CarSummary />
+    </div>
+  </div>
+</div>
+
+
   );
 }

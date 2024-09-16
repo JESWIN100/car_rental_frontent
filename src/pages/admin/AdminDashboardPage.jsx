@@ -15,10 +15,10 @@ export default function AdminDashboard() {
     const fetchData = async () => {
       try {
         const [carsResponse, bookingsResponse, usersResponse, reviewsResponse] = await Promise.all([
-          axiosInstance.get('/admin/total'),
-          axiosInstance.get('/admin/totalBooking'),
-          axiosInstance.get('/admin/totalUsers'),
-          axiosInstance.get('/admin/totalReview')
+          axiosInstance.get('/admin/total',{withCredentials: true}),
+          axiosInstance.get('/admin/totalBooking',{withCredentials: true}),
+          axiosInstance.get('/admin/totalUsers',{withCredentials: true}),
+          axiosInstance.get('/admin/totalReview',{withCredentials: true})
         ]);
 
         setTotalCars(carsResponse.data.total);
@@ -59,14 +59,14 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      {/* <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
         <ul className="space-y-2">
           <li>New booking by John Doe for BMW X5</li>
           <li>New car added: Audi Q7</li>
           <li>Booking canceled: Booking #4567</li>
         </ul>
-      </div>
+      </div> */}
 
       {/* Cars Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -93,14 +93,14 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-bold mb-4">Bookings Over Time</h2>
           <BookingsChart />
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
+        {/* <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Revenue Overview</h2>
           <RevenueChart />
-        </div>
+        </div> */}
       </div>
 
       {/* Quick Access Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         {[
           { title: 'Manage Cars', description: 'Quick access to car management.', link: 'Go to Cars' },
           { title: 'Manage Bookings', description: 'Quick access to booking management.', link: 'Go to Bookings' },
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
             <button className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">{link}</button>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

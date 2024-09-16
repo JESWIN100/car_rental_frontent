@@ -1,44 +1,48 @@
-import React from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { userSignup } from '../../services/userApi';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function SignupPage() {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit =async (data) =>{
+  const onSubmit = async (data) => {
     try {
-      console.log("data======>",data);
-      // api call
-      const response=await userSignup(data);
-      console.log("response======>",response);
-      // redirect to login page
+      console.log("data======>", data);
+      const response = await userSignup(data);
+      console.log("response======>", response);
       if (response) {
-        toast.success(response.message); // Correctly access the message
+        toast.success(response.message);
         navigate('/login');
       }
-
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
-    console.error(error);
+      console.error(error);
     }
-  }
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(prev => !prev);
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-5">
-      <div className="rounded-2xl overflow-hidden shadow-lg max-w-4xl w-full flex flex-col md:flex-row">
-        <div className="p-10 flex-1">
+    <div className=" bg-gray-900 flex justify-center items-center min-h-screen p-5 ">
+      <div className=" bg-gray-800 rounded-2xl overflow-hidden shadow-lg max-w-4xl w-full flex flex-col md:flex-row ">
+        <div className="p-10 flex-1 relative text-white">
           <h1 className="text-3xl font-bold mb-2">Welcome 🙏</h1>
-          <p className="text-gray-600 text-base mb-5">
+          <p className="text-gray-400 text-base mb-5">
             Today is a new day. It’s your day. You shape it.
             <br />
-            Sign in to start managing your projects.
+            Sign up to start managing your projects.
           </p>
           <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -49,7 +53,7 @@ export default function SignupPage() {
                 type="text"
                 id="name"
                 placeholder="Your name"
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border  border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 {...register('name', { required: 'Name is required' })}
               />
               {errors.name && (
@@ -64,7 +68,7 @@ export default function SignupPage() {
                 type="email"
                 id="email"
                 placeholder="Example@email.com"
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border  border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 "
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
@@ -85,7 +89,7 @@ export default function SignupPage() {
                 type="tel"
                 id="phone"
                 placeholder="At least 10 numbers"
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border  border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 {...register('phone', {
                   required: 'Phone number is required',
                   minLength: {
@@ -102,46 +106,47 @@ export default function SignupPage() {
               <label htmlFor="password" className="font-medium mb-1 block">
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="At least 8 characters"
-                className="w-full p-3 border rounded-lg"
-                {...register('password', {
-                  required: 'Password is required',
-                  minLength: {
-                    value: 8,
-                    message: 'Password must be at least 8 characters',
-                  },
-                })}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  placeholder="At least 8 characters"
+                  className="w-full p-3 border g pr-10  border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  {...register('password', {
+                    required: 'Password is required',
+                    minLength: {
+                      value: 8,
+                      message: 'Password must be at least 8 characters',
+                    },
+                  })}
+                />
+                <button
+                  type="button"
+                  onClick={handleTogglePassword}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} size="lg" />
+                </button>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
               )}
             </div>
-            <Link to="/forgot-password" className="text-blue-500 text-sm text-right block mb-5">
+            {/* <Link to="/forgot-password" className="text-blue-500 text-sm text-right block mb-5">
               Forgot Password?
-            </Link>
+            </Link> */}
             <button
               type="submit"
-              className="w-full bg-gray-800 text-white p-3 rounded-lg"
+              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-all"
             >
               Sign up
             </button>
           </form>
-          <div className="text-center my-6">
-            <span className="text-gray-500 text-sm block mb-3">Or</span>
-            <button className="w-full p-3 border border-gray-300 rounded-lg mb-3 text-gray-700">
-              Sign up with Google
-            </button>
-            <button className="w-full p-3 border border-gray-300 rounded-lg text-gray-700">
-              Sign up with Facebook
-            </button>
-          </div>
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-gray-500 mt-6">
             Already have an account?{' '}
             <Link to="/login" className="text-blue-500">
-              Sign in
+              Log in
             </Link>
           </p>
         </div>

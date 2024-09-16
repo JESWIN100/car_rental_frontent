@@ -26,18 +26,18 @@ export default function CarSummary() {
     fetchDetails();
   }, [id]);
 
-  if (loading) return <div className="text-center mt-10 text-gray-600">Loading...</div>;
+  if (loading) return <div className="text-center mt-10 ">Loading...</div>;
   if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
 
   return (
     <div className="container mx-auto p-6">
-      <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+      <div className=" p-6 rounded-lg shadow-lg border border-gray-200">
         <h2 className="text-2xl font-bold mb-4">Rental Summary</h2>
         <div className="flex flex-col md:flex-row md:space-x-6">
           <img
             src={carDetails.image}
             alt={`Image of ${carDetails.model}`}
-            className="w-full md:w-2/4 h-auto object-cover rounded-lg"
+            className="w-full md:w-2/4 h-auto object-contain rounded-lg"
           />
           <div className="mt-4 md:mt-0 flex-1">
             <p className="text-xl font-semibold mb-2">Car Model: {carDetails.brand} {carDetails.model}</p>

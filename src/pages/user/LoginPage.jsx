@@ -1,82 +1,86 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 import { userLogin } from '../../services/userApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch, // Used to monitor changes in form values
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-const navigate =useNavigate()
+  const onSubmit = async (data) => {
+    try {
+      const { confirmPassword, ...loginData } = data;
+      const response = await userLogin(loginData);
+      console.log("login data", response);
 
-
-const onSubmit = async (data) => {
-  try {
-    const { confirmPassword, ...loginData } = data;
-    const response = await userLogin(loginData);
-console.log("login data",response);
-
-    if (response) {
-      toast.success(response.message); // Correctly access the message
-      navigate('/user/home');
+      if (response) {
+        toast.success(response.message);
+        navigate('/user/home');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+      console.error(error);
     }
-  } catch (error) {
-    toast.error(error.response?.data?.message || "An error occurred");
-    console.error(error);
-  }
-};
-  // Watch the password field to compare it with the confirm password field
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(prev => !prev);
+  };
+
+  const handleToggleConfirmPassword = () => {
+    setShowConfirmPassword(prev => !prev);
+  };
+
   const password = watch("password");
 
   return (
-    <div>
-      <div className="flex justify-center items-center min-h-screen p-5">
-        <div className="rounded-2xl overflow-hidden shadow-lg max-w-4xl w-full flex flex-col md:flex-row">
-          <div className="p-10 flex-1">
-            <h1 className="text-3xl font-bold mb-2">Welcome Back 👋</h1>
-            <p className="text-gray-600 text-base mb-5">
-              Today is a new day. It’s your day. You shape it.
-              <br />
-              Sign in to start managing your projects.
-            </p>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <div>
-                <label htmlFor="email" className="font-medium mb-1 block">
-                  Email
-                </label>
+    <div className="bg-gray-900 min-h-screen flex justify-center items-center p-5">
+      <div className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg max-w-4xl w-full flex flex-col md:flex-row">
+        <div className="p-10 flex-1 text-white">
+          <h1 className="text-4xl font-bold mb-4">Welcome Back 👋</h1>
+          <p className="text-gray-400 text-lg mb-6">
+            Start your journey with us. Sign in to manage your projects and much more.
+          </p>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="font-medium mb-1 block">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                placeholder="you@example.com"
+                className="w-full p-3 border border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+              />
+              {errors.email && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="password" className="font-medium mb-1 block">
+                Password
+              </label>
+              <div className="relative">
                 <input
-                  type="email"
-                  id="email"
-                  placeholder="Example@email.com"
-                  className="w-full p-3 border rounded-lg"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Please enter a valid email address",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="password" className="font-medium mb-1 block">
-                  Password
-                </label>
-                <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
-                  placeholder="At least 8 characters"
-                  className="w-full p-3 border rounded-lg"
+                  placeholder="Your password"
+                  className="w-full p-3 border border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -85,21 +89,31 @@ console.log("login data",response);
                     },
                   })}
                 />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
+                <button
+                  type="button"
+                  onClick={handleTogglePassword}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} size="lg" className="text-gray-400" />
+                </button>
               </div>
-              <div>
-                <label htmlFor="confirm-password" className="font-medium mb-1 block">
-                  Confirm Password
-                </label>
+              {errors.password && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="confirm-password" className="font-medium mb-1 block">
+                Confirm Password
+              </label>
+              <div className="relative">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   id="confirm-password"
-                  placeholder="At least 8 characters"
-                  className="w-full p-3 border rounded-lg"
+                  placeholder="Confirm your password"
+                  className="w-full p-3 border border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                   {...register("confirmPassword", {
                     required: "Confirm Password is required",
                     minLength: {
@@ -110,46 +124,42 @@ console.log("login data",response);
                       value === password || "Passwords do not match",
                   })}
                 />
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
+                <button
+                  type="button"
+                  onClick={handleToggleConfirmPassword}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                >
+                  <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} size="lg" className="text-gray-400" />
+                </button>
               </div>
-              <a href="#" className="text-blue-500 text-sm text-right block mb-5">
-                Forgot Password?
-              </a>
-              <button
-                type="submit"
-                className="w-full bg-gray-800 text-white p-3 rounded-lg"
-              >
-                Log in
-              </button>
-            </form>
-            <div className="text-center my-6">
-              <span className="text-gray-500 text-sm block mb-3">Or</span>
-              <button className="w-full p-3 border border-gray-300 rounded-lg mb-3 text-gray-700">
-                Log in with Google
-              </button>
-              <button className="w-full p-3 border border-gray-300 rounded-lg text-gray-700">
-                Log in with Facebook
-              </button>
+              {errors.confirmPassword && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
-            <p className="text-center text-sm text-gray-500">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-blue-500">
-                Sign up
-              </Link>
-            </p>
-          </div>
-          <div className="hidden md:block flex-1 overflow-hidden">
-            <img
-              src="https://pbs.twimg.com/media/F2H0hykWMAACJ76?format=jpg&name=4096x4096"
-              alt="Login Illustration"
-              className="w-full h-full object-cover"
-              style={{ borderRadius: '2px 16px' }}
-            />
-          </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-all"
+            >
+              Log in
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-400 mt-6">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-blue-400 hover:text-blue-500">
+              Sign up
+            </Link>
+          </p>
+        </div>
+        <div className="hidden md:block flex-1">
+          <img
+            src="https://pbs.twimg.com/media/F2H0hykWMAACJ76?format=jpg&name=4096x4096"
+            alt="Login Illustration"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>

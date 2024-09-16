@@ -32,8 +32,9 @@ export const userLogout=async(data)=>{
     const response = await axiosInstance.post('user/logout', data, {
       withCredentials: true,
       });
+      
       Cookies.remove('token');
-      return response.data; // Return the response data correctly
+      return response.data; 
     }
     catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");

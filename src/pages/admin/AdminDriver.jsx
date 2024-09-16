@@ -7,7 +7,9 @@ export default function AdminDriver() {
   useEffect(() => {
     const fetchDriverList = async () => {
       try {
-        const response = await axiosInstance.get('/admin/driverlist');
+        const response = await axiosInstance.get('/admin/driverlist',{
+          withCredentials: true,
+        });
         setDrivers(response.data.data); // Adjust according to the actual response structure
 
         console.log("Drivers========>", response.data);

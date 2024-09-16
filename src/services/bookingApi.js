@@ -36,7 +36,7 @@ export const bookingCreate=async(data)=>{
 
   export const fetchBookings = async (params) => {
     try {
-      const response = await axiosInstance.get('/admin/bookings', {
+      const response = await axiosInstance.get('/booking/getBooking', {
         params, // Use the `params` option for query parameters in GET requests
         withCredentials: true,
       });
@@ -93,3 +93,38 @@ export const bookingCreate=async(data)=>{
   };
 
 
+  export const fetchAdminBookings = async (params) => {
+    try {
+      const response = await axiosInstance.get('/admin/bookings', {
+        params, // Use the `params` option for query parameters in GET requests
+        withCredentials: true,
+      });
+      console.log(response.data); // Log the data from the response
+  
+      // Optionally, return the data if you need it for further processing
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+      console.error(error);
+    }
+  };
+
+
+
+
+
+  export const fetchUserBookings = async (params) => {
+    try {
+      const response = await axiosInstance.get('/booking/bookingsAll', {
+        params, // Use the `params` option for query parameters in GET requests
+        withCredentials: true,
+      });
+      console.log(response.data); // Log the data from the response
+  
+      // Optionally, return the data if you need it for further processing
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
+      console.error(error);
+    }
+  };
