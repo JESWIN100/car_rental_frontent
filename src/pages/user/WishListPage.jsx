@@ -75,7 +75,7 @@ export default function WishListPage() {
                   <p className="text-gray-600 mb-2">Mileage: {car.mileage || 'N/A'} km</p>
                   <p className="text-gray-600 mb-2">Fuel Type: {car.fuelType || 'N/A'}</p>
                   <p className="text-gray-600 mb-2">Transmission: {car.transmission || 'N/A'}</p>
-                  <p className="text-lg font-bold">Price per day: ${car.pricePerDay || 'N/A'}</p>
+                  <p className="text-lg font-bold">Price per day: ₹{car.pricePerDay || 'N/A'}</p>
                   
                 </div>
               </div>

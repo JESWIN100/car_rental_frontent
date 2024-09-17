@@ -77,6 +77,14 @@ export default function AdminBooking() {
     setSelectedBooking(bookingDetail);
   };
 
+
+
+
+
+
+  
+
+
   const handleSendEmail = async () => {
     if (!selectedBooking) {
       toast.error("No booking details selected.");
@@ -85,26 +93,37 @@ export default function AdminBooking() {
 
     const { carId, userId, pickupLocation, dropoffLocation, startDate, endDate, startTime, endTime, paymentStatus, status } = selectedBooking;
 
+  
+    // Log the recipient email to ensure it's defined
+    console.log("Recipient Email:", userId?.email); // Ensure this is not undefined
+
+    if (!userId?.email) {
+      toast.error("No recipient email found.");
+      return;
+    }
+
     try {
       await axiosInstance.post('nodemailer/create', {
         to: userId.email,
         subject: "Journey Details with Morent Car Rentals",
         text: `Your car rental booking with Morent Car Rentals has been confirmed! Below are the details...`,
         html: `
-        <p style="font-family: Arial, sans-serif; color: #333;">Dear ${userId.name},</p>
-          <p>Your car rental booking with Morent Car Rentals has been confirmed!</p>
-          <p>Below are the details of your rental:</p>
-          <ul>
-            <li>Car ID: ${carId._id}</li>
-            <li>Pickup Location: ${pickupLocation}</li>
-            <li>Drop-off Location: ${dropoffLocation}</li>
-            <li>Pickup Date: ${new Date(startDate).toLocaleDateString()} ${startTime}</li>
-            <li>Drop-off Date: ${new Date(endDate).toLocaleDateString()} ${endTime}</li>
-            <li>Payment Status: ${paymentStatus}</li>
-            <li>Status: ${status}</li>
-          </ul>
-          <p>Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.</p>
-          <p>Regards,<br/>Morent Car Rentals</p>
+       <p style="font-family: Arial, sans-serif; color: #333;">Dear ${userId.name},</p>
+<p>Your car rental booking with Morent Car Rentals has been confirmed!</p>
+<p>Below are the details of your rental:</p>
+<ul>
+  <li>Car ID: ${carId._id}</li>
+  <li>Car Model: ${carId.model}</li>
+  <li>Pickup Location: ${pickupLocation}</li>
+  <li>Drop-off Location: ${dropoffLocation}</li>
+  <li>Pickup Date: ${new Date(startDate).toLocaleDateString()} ${startTime}</li>
+  <li>Drop-off Date: ${new Date(endDate).toLocaleDateString()} ${endTime}</li>
+  <li>Payment Status: ${paymentStatus}</li>
+  <li>Status: ${status}</li>
+</ul>
+<p>Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.</p>
+<p>Regards,<br/>Morent Car Rentals</p>
+
         `
       });
 

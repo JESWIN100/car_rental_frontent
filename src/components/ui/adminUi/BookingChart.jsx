@@ -10,7 +10,7 @@ import {
   CategoryScale,
   LinearScale
 } from 'chart.js';
-import { fetchBookings } from '../../../services/bookingApi'; 
+import { fetchAdminBookings, fetchBookings } from '../../../services/bookingApi'; 
 
 // Register required components
 ChartJS.register(
@@ -41,7 +41,7 @@ const BookingsChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const bookings = await fetchBookings();
+        const bookings = await fetchAdminBookings();
         if (bookings) {
           // Process your data here
           // Example: Aggregate bookings by month
