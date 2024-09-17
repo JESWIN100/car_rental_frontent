@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DarkMode from '../ui/DarkMode';
 import { userLogout } from '../../services/userApi';
 import { toast } from 'react-toastify';
 import logo from "../../assets/images/Morent-removebg-preview.png";
+import { axiosInstance } from '../../config/axiosInstance';
 
 export default function UserHeader() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user,setUser]=useState([])
 
   const handleLogout = async () => {
     try {
@@ -32,6 +34,28 @@ export default function UserHeader() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axiosInstance.get('user/profile', {
+          withCredentials: true,
+        });
+        setUser(response?.data?.data || {});
+      } catch (error) {
+        setError("Error fetching user profile.");
+        console.log("Error fetching user profile:", error.response?.data?.message || error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+
+
 
   return (
     <header className=" absolute top-0 left-0 w-full bg-transparent  text-white shadow-md z-50 ">
@@ -91,7 +115,7 @@ export default function UserHeader() {
               onClick={toggleDropdown}
             >
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"
+                src={ user.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s" } 
                 alt="User Avatar"
                 className="w-full h-full object-cover"
               />
@@ -112,7 +136,7 @@ export default function UserHeader() {
         </div>
 
         {isMenuOpen && (
-          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 text-black bg-white">
+          <ul className="absolute top-16 left-0 w-full shadow-lg rounded-b-lg md:hidden flex flex-col items-center space-y-4 py-4 text-white bg-black">
             <li><a href="#" className="font-semibold">Home</a></li>
             <li><a href="#how-it-work" className="font-semibold">How it Works</a></li>
             <li><a href="/car/carslist" className="font-semibold">Rental Cars</a></li>

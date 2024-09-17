@@ -190,7 +190,7 @@ export default function AdminBooking() {
                 <td>{car.carId.brand} {car.carId.model}</td>
                 <td>{car._id}</td>
                 <td>{car.carId._id}</td>
-                <td>{car.userId.name}</td>
+                <td>{car?.userId?.name || "NA"}</td>
                 <td>{car.pickupLocation}</td>
                 <td>{car.dropoffLocation}</td>
                 <td>{new Date(car.startDate).toLocaleDateString()}</td>

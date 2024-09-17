@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { axiosInstance } from '../../config/axiosInstance';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Ensure react-toastify is set up correctly for notifications
+import { ImageDown } from 'lucide-react';
 
 const UserProfile = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+
+  const fileInputRef = useRef(null); // Ref for file input
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -15,6 +20,8 @@ const UserProfile = () => {
           withCredentials: true,
         });
         setUser(response?.data?.data || {});
+        console.log(response?.data?.data);
+        
       } catch (error) {
         setError("Error fetching user profile.");
         console.log("Error fetching user profile:", error.response?.data?.message || error.message);
@@ -32,6 +39,39 @@ const UserProfile = () => {
   if (!isVisible) {
     return null;
   }
+
+  const handleFileChange = (event) => {
+    setImageFile(event.target.files[0]);
+  };
+
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click(); // Trigger file input click
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    if (!imageFile) {
+      toast.error('No image selected.');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+
+      const response = await axiosInstance.put(`/user/updateUser/${user._id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
+      });
+
+      toast.success(response.data.message);
+      setUser(prevState => ({ ...prevState, image: response.data.data.image }));
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update profile image.');
+      console.error('Error updating profile image:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -52,12 +92,12 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-start md:items-center min-h-screen bg-gray-100 p-6">
-      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl p-6">
+    <div className="flex flex-col md:flex-row justify-center items-start md:items-center min-h-screen bg-gray-50 p-6">
+      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-4xl p-8">
         {/* Close Button with Link */}
         <Link to="/user/home" onClick={handleClose}>
           <button
-            className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+            className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors duration-300"
             aria-label="Close"
           >
             <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -66,24 +106,57 @@ const UserProfile = () => {
           </button>
         </Link>
 
-        <div className="flex items-center justify-center md:justify-start mb-6">
-          <img
-            src={user.profileImage || "https://www.kindpng.com/picc/m/780-7804962_cartoon-avatar-png-image-transparent-avatar-user-image.png"}
-            alt="Profile"
-            className="w-32 h-32 rounded-full border-4 border-gray-300 object-cover"
-          />
-          <div className="ml-6">
-            <h2 className="text-3xl font-semibold text-gray-800">{user.name || "User Name"}</h2>
-            <p className="text-gray-500">Member Since: {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</p>
+        <div className="flex flex-col md:flex-row items-center md:items-start mb-8 ">
+        <div className="relative group">
+  <img
+    src={user.image || "https://www.kindpng.com/picc/m/780-7804962_cartoon-avatar-png-image-transparent-avatar-user-image.png"}
+    alt="Profile"
+    className="w-36 h-36 rounded-full border-4 border-blue-500 object-cover"
+  />
+  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
+    <ImageDown
+      className="cursor-pointer text-white"
+      onClick={handleFileButtonClick}
+    />
+  </div>
+</div>
+
+
+          
+          <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left">
+            <h2 className="text-4xl font-semibold text-gray-800">{user.name || "User Name"}</h2>
+            <p className="text-gray-500 mt-2">Member Since: {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</p>
           </div>
         </div>
         
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Contact Information</h3>
-          <p className="text-gray-600"><strong>Email:</strong> {user.email || "N/A"}</p>
-          <p className="text-gray-600"><strong>Phone:</strong> {user.phone || "N/A"}</p>
+        <div className="mb-8">
+          <h3 className="text-2xl font-semibold text-gray-700 mb-4">Contact Information</h3>
+          <p className="text-gray-600 mb-2"><strong>Email:</strong> {user.email || "N/A"}</p>
+          <p className="text-gray-600 mb-2"><strong>Phone:</strong> {user.phone || "N/A"}</p>
           <p className="text-gray-600"><strong>Address:</strong> {user.address || "N/A"}</p>
         </div>
+        
+        {/* Form to update the profile image */}
+        <form onSubmit={onSubmit} className="mb-8">
+          <label className="block mb-4">
+            {/* <span className="text-gray-700">Profile Image</span> */}
+            <input 
+              ref={fileInputRef} // Attach ref to input
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileChange} 
+              className="hidden" // Hide the file input
+            />
+          </label>
+          {/* <ImageDown onClick={handleFileButtonClick} /> */}
+
+          <button 
+            type="submit" 
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 mt-4"
+          >
+            Update Image
+          </button>
+        </form>
       </div>
 
       <style jsx>{`

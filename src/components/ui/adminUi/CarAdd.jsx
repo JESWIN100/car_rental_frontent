@@ -210,7 +210,7 @@ export default function CarAdding() {
 
 
 <div className="mb-4">
-              <label className="block text-gray-700">BootStrap</label>
+              <label className="block text-gray-700">BootSpace</label>
               <input
                 type="text"
                 placeholder="Enter BootStrap"

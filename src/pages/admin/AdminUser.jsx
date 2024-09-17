@@ -100,7 +100,7 @@ export default function AdminUser() {
                       <div className="mask mask-squircle h-12 w-12">
                         {/* You can add a user image or placeholder here */}
                         <img
-                          src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                          src={ user.image || "https://img.daisyui.com/images/profile/demo/2@94.webp"}
                           alt="Avatar"
                         />
                       </div>
