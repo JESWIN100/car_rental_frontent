@@ -4,7 +4,7 @@ import HowItWork from './HowItWork';
 import Testimonials from './Testimonials';
 import CarRentalForm from '../../components/ui/SearchFoarm';
 import { Link } from 'react-router-dom';
-import video from '../../assets/videos/audimp4.mp4';
+import video from '../../assets/videos/y2mate.com - MercedesAMG GT R Commercial  Blender 283_1080.mp4';
 
 export default function UserHomepage() {
   // State to manage the visibility of the CarRentalForm
