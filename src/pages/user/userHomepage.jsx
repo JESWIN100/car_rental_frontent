@@ -21,6 +21,23 @@ export default function UserHomepage() {
   <section className="relative flex items-center justify-center h-screen text-center p-4 sm:p-8 lg:p-12">
     {/* Background Video */}
  
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      <source
+        src={video}
+        type="video/mp4"
+      />
+      Your browser does not support the video tag.
+    </video>
+
+
+
+
 
     {/* Dark overlay */}
     <div className="absolute inset-0 bg-black opacity-50"></div>
