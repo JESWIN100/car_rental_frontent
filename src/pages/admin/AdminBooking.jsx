@@ -93,7 +93,7 @@ export default function AdminBooking() {
       return;
     }
 
-    const { carId, userId, pickupLocation, dropoffLocation, startDate, endDate, startTime, endTime, paymentStatus, status } = selectedBooking;
+    const {_id, carId, userId, pickupLocation, dropoffLocation, startDate, endDate, startTime, endTime, paymentStatus, status } = selectedBooking;
 
   
     // Log the recipient email to ensure it's defined
@@ -117,7 +117,7 @@ export default function AdminBooking() {
     
           <h4 style="color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">Booking Information</h4>
           <ul style="list-style-type: none; padding-left: 0;">
-            <li><strong>Booking Number:</strong> 789654</li>
+            <li><strong>Booking Number:</strong> ${_id}</li>
             <li><strong>Vehicle:</strong> ${carId.model} ${carId.brand} (${carId.year})</li>
             <li><strong>License Plate:</strong> ${carId.registrationNumber}</li>
             <li><strong>Fuel Type:</strong> ${carId.fuelType}</li>
