@@ -5,7 +5,7 @@ const Filters = () => {
     <aside className="w-full md:w-1/4 bg-white shadow-md rounded-lg p-6 mb-10 md:mb-0">
       <h2 className="text-xl font-semibold mb-4">Type</h2>
       <ul className="mb-6">
-        <li><input type="checkbox" /> Sport (10)</li>
+        <li><input type="checkbox" /> Sporft (10)</li>
         <li><input type="checkbox" /> SUV (12)</li>
         <li><input type="checkbox" /> MPV (16)</li>
         <li><input type="checkbox" /> Sedan (20)</li>
