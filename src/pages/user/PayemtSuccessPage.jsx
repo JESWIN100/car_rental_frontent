@@ -5,7 +5,7 @@ import { confirmAdminPayment } from '../../services/adminPaymentApi';
 import { fetchUserBookings } from '../../services/bookingApi';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../config/axiosInstance';
-import video from '../../assets/videos/Withdrawal Receipt.mp4';
+import video from '../../assets/videos/payment.mp4';
 
 // Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
