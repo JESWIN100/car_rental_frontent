@@ -54,16 +54,16 @@ export default function CarRentalInfo({ setTotalAmount}) { // Accept setTotalAmo
     }
   };
 
-// Updated handleRadioChange function
+
 const handleRadioChange = async () => {
-  // If the radio is already checked, prevent further action
-  if (isRadioChecked) {
-    toast.error("You have already submitted the form.");
-    setTimeout(()=>{
-      handleFormReset()
-    },5000)
-    return;
-  }
+
+  // if (isRadioChecked()) {
+  //   toast.error("You have already submitted the form.");
+  //   // setTimeout(()=>{
+  //   //   handleFormReset()
+  //   // },5000)
+  //   return;
+  // }
 
   const isFormValid = await trigger();
   if (isFormValid) {
@@ -142,99 +142,98 @@ fetchUser()
   const citiesInKerala = [
     'Thiruvananthapuram', 'Kochi', 'Kollam', 'Alappuzha', 'Palakkad',
     'Kannur', 'Thrissur', 'Varkala', 'Wayanad', 'Idukki',
-    'Malappuram', 'Kasargod', 'Ernakulam', 'Kottayam'
+    'Malappuram', 'Kasargod', 'Ernakulam', 'Kottayam',
+    'Kalpetta','Bathery ','Mananthavady ','Meenangadi','Pulpally ',
   ];
 
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md pt-10">
-      <h2 className="text-xl font-semibold mb-6">Booking Info <span className="text-gray-500">Step 2 of 3</span></h2>
-     <div className='form-group mt-4'>
-  <h2 className="form-control flex flex-row items-center">
-    <input
-      type="checkbox"
-      className="toggle toggle-success mr-2 "
-      checked={isRadioChecked}
-      
-      onChange={() => setIsRadioChecked(!isRadioChecked)}
-      onClick={handleRadioChange}
-    />
-    <span className="ml-2  text-gray-900 text-base ">Submit Form</span>
-  </h2>
-</div>
+    <div className="bg-white p-6 rounded-lg shadow-md pt-10">
+  <h2 className="text-xl font-semibold mb-6">Booking Info <span className="text-gray-500">Step 2 of 3</span></h2>
 
- 
-  
-  <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-5">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className='form-group mt-4'>
+    <h2 className="form-control flex flex-row items-center">
+      <input
+        type="checkbox"
+        className="toggle toggle-success mr-2"
+        checked={isRadioChecked}
+        onChange={() => setIsRadioChecked(!isRadioChecked)}
+        onClick={handleRadioChange}
+      />
+      <span className="ml-2 text-gray-900 text-base">Submit Booking Info</span>
+    </h2>
+  </div>
+
+  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Date and Time Fields */}
       <div className="form-group">
-        <label htmlFor="startDate" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="startDate" className="block font-medium mb-2 text-gray-800">
           Start Date
         </label>
         <input
           type="date"
           id="startDate"
           {...register('startDate', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.startDate ? 'border-red-500' : 'border-gray-300'}`}
-          min={new Date().toISOString().split('T')[0]} // sets today's date as the minimum
+          className={`form-control w-full p-3 rounded-md border ${errors.startDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
+          min={new Date().toISOString().split('T')[0]}
         />
         {errors.startDate && <span className="text-red-500 text-sm">Start date is required.</span>}
       </div>
-      
+
       <div className="form-group">
-        <label htmlFor="startTime" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="startTime" className="block font-medium mb-2 text-gray-800">
           Start Time
         </label>
         <input
           type="time"
           id="startTime"
           {...register('startTime', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.startTime ? 'border-red-500' : 'border-gray-300'}`}
+          className={`form-control w-full p-3 rounded-md border ${errors.startTime ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
         />
         {errors.startTime && <span className="text-red-500 text-sm">Start time is required.</span>}
       </div>
-      
+
       <div className="form-group">
-        <label htmlFor="endDate" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="endDate" className="block font-medium mb-2 text-gray-800">
           End Date
         </label>
         <input
           type="date"
           id="endDate"
           {...register('endDate', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.endDate ? 'border-red-500' : 'border-gray-300'}`}
-          min={new Date().toISOString().split('T')[0]} // sets today's date as the minimum
+          className={`form-control w-full p-3 rounded-md border ${errors.endDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
+          min={new Date().toISOString().split('T')[0]}
         />
         {errors.endDate && <span className="text-red-500 text-sm">End date is required.</span>}
       </div>
-      
+
       <div className="form-group">
-        <label htmlFor="endTime" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="endTime" className="block font-medium mb-2 text-gray-800">
           End Time
         </label>
         <input
           type="time"
           id="endTime"
           {...register('endTime', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.endTime ? 'border-red-500' : 'border-gray-300'}`}
+          className={`form-control w-full p-3 rounded-md border ${errors.endTime ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
         />
         {errors.endTime && <span className="text-red-500 text-sm">End time is required.</span>}
       </div>
     </div>
-    
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Pickup and Dropoff Locations */}
       <div className="form-group">
-        <label htmlFor="pickup-location" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="pickup-location" className="block font-medium mb-2 text-gray-800">
           Pickup Location
         </label>
         <select
           id="pickup-location"
           {...register('pickupLocation', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.pickupLocation ? 'border-red-500' : 'border-gray-300'}`}
+          className={`form-control w-full p-3 rounded-md border ${errors.pickupLocation ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
         >
-          <option value="" className='text-gray-950'>Select Pickup Location</option>
+          <option value="" className="text-gray-800">Select Pickup Location</option>
           {citiesInKerala.map(city => (
             <option key={city} value={city}>
               {city}
@@ -243,17 +242,17 @@ fetchUser()
         </select>
         {errors.pickupLocation && <span className="text-red-500 text-sm">Pickup location is required.</span>}
       </div>
-      
+
       <div className="form-group">
-        <label htmlFor="dropoff-location" className="block font-medium mb-1 text-gray-950">
+        <label htmlFor="dropoff-location" className="block font-medium mb-2 text-gray-800">
           Dropoff Location
         </label>
         <select
           id="dropoff-location"
           {...register('dropoffLocation', { required: true })}
-          className={`form-control bg-white text-gray-950 ${errors.dropoffLocation ? 'border-red-500' : 'border-gray-300'}`}
+          className={`form-control w-full p-3 rounded-md border ${errors.dropoffLocation ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
         >
-          <option value="" className='text-gray-950'>Select Dropoff Location</option>
+          <option value="" className="text-gray-800">Select Dropoff Location</option>
           {citiesInKerala.map(city => (
             <option key={city} value={city}>
               {city}
@@ -263,17 +262,6 @@ fetchUser()
         {errors.dropoffLocation && <span className="text-red-500 text-sm">Dropoff location is required.</span>}
       </div>
     </div>
-    
-   { /* Confirm Booking Checkbox */}
-     {/* <div className="form-group mt-4">
-          <div className="form-control flex flex-row items-center">
-            <span className="label-text p-2">Confirm Booking:</span>
-            <input type="checkbox" 
-              onClick={handleConfirm}
-              className="checkbox checkbox-primary mr-2" />
-          </div>
-        </div>  */}
-
   </form>
 </div>
 

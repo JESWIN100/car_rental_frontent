@@ -25,7 +25,8 @@ const ReviewForm = ({ carId, userId }) => {
         withCredentials: true, // Make sure cookies are sent with the request
       });
 
-      toast.success("Review submitted successfully!");
+      toast.success("Thank you for your valuable review! Have a nice day!");
+
       reset(); // Reset form fields on success
       setIsModalOpen(false); // Close the modal
     } catch (error) {

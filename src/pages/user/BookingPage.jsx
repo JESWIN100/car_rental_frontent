@@ -109,6 +109,13 @@ export default function BookingPage() {
     return true;
   }, []);
 
+
+  // if (carDetails?.availability === false) {
+  //   setIsButtonDisabled(fals);
+  // }
+  
+
+
   useEffect(() => {
     const allFormsValid = validateForms();
     setIsButtonDisabled(!allFormsValid || !termsConsent);
@@ -134,7 +141,7 @@ export default function BookingPage() {
   const makePayment = async () => {
     try {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
-
+     
       const sessionResponse = await axiosInstance({
         url: "/payment/create-checkout-session",
         method: "POST",

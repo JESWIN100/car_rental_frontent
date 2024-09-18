@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { adminLogout } from '../../services/adminApi';
+import DarkMode from '../ui/DarkMode';
 
 export default function AdminHeader() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -37,6 +38,9 @@ export default function AdminHeader() {
 
       {/* Sidebar */}
       <div className={`fixed left-0 top-0 h-full transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:w-64 w-56 bg-gray-800 text-white shadow-lg z-40`}>
+      {/* <div className="w-10 pt-2 hidden md:block">
+      <DarkMode />
+    </div> */}
         <nav className="flex flex-col h-full py-4 px-6 space-y-4">
           <Link to="/admin/dashboard" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Dashboard</Link>
           <Link to="/admin/users" className="hover:bg-gray-700 p-2 rounded-md transition-colors" onClick={toggleSidebar}>Manage Users</Link>

@@ -24,7 +24,7 @@ export default function UserFooter() {
                 <li><Link to="/user/home" className="text-blue-600 hover:underline">Home</Link></li>
                 <li><Link to="/user/home/#how-it-works" className="text-blue-600 hover:underline">How it Works</Link></li>
                 <li><Link to="/user/home/#why-choose-us" className="text-blue-600 hover:underline">Why Choose Us</Link></li>
-                <li><Link to="/#testimonials" className="text-blue-600 hover:underline">Testimonials</Link></li>
+                <li><Link to="/user/home/#testimonials" className="text-blue-600 hover:underline">Testimonials</Link></li>
                 <li><Link to="/payment/contact" className="text-blue-600 hover:underline">Contact Us</Link></li>
               </ul>
             </div>

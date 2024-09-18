@@ -3,11 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import { fetchCarsDetails } from '../../services/carsApi';
 import { FaCar, FaCalendarAlt, FaGasPump, FaPaintBrush, FaUser, FaGavel, FaTachometerAlt } from 'react-icons/fa';
 import ReviewSection from '../../components/ui/ReviewSection';
+import { toast } from 'react-toastify';
+
 
 export default function CarsDetailsPage() {
   const [carDetails, setCarDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,6 +18,10 @@ export default function CarsDetailsPage() {
       try {
         const response = await fetchCarsDetails(id);
         setCarDetails(response);
+        if (!response.availability) {
+          setIsDisabled(true);  // Set the button to disabled if the car is not available
+          toast.info("This vehicle is not available now. Please try later!");
+        }
       } catch (error) {
         setError("Error fetching car details");
         console.error("Error fetching car details:", error);
@@ -25,6 +32,23 @@ export default function CarsDetailsPage() {
 
     fetchDetails();
   }, [id]);
+
+
+// const disable= ()=>{
+//   if(carDetails?.availability===false){
+//    disable=true
+//     toast.info("this vechicle not avaible now please try later!")
+    
+//   }
+// }
+
+
+
+
+
+
+
+
 
   if (loading) return <div className="text-center mt-10">Loading...</div>;
   if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
@@ -197,9 +221,17 @@ export default function CarsDetailsPage() {
           <div className="flex items-center justify-between">
             <p className="text-3xl font-bold ">{carDetails?.pricePerDay}₹ / day</p>
             <Link to={`/payment/book/${carDetails._id}`}>
-              <button className="bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors shadow-lg">
-                Rent Now
-              </button>
+            <button
+              className={`btn btn-primary ${isDisabled ? 'cursor-not-allowed opacity-10' : ''}`}
+              disabled={isDisabled}  // Updated to use isDisabled state
+              onClick={() => {
+                if (!isDisabled) {
+                  // toast.success("Booking functionality coming soon!");
+                }
+              }}
+            >
+              Book Now
+            </button>
             </Link>
           </div>
         </section>

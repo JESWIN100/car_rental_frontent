@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 export default function PaymentFailed() {
@@ -25,23 +26,24 @@ export default function PaymentFailed() {
       <p style={{ color: '#495057', fontSize: '16px', marginBottom: '20px' }}>
         We're sorry, but your payment could not be processed. Please try again or contact support if the issue persists.
       </p>
-      <button 
-        onClick={() => window.location.reload()} 
-        style={{
-          padding: '12px 24px',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '16px',
-          cursor: 'pointer',
-          transition: 'background-color 0.3s'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
-      >
-        Retry Payment
-      </button>
+      {/* <Link to={'/car/carslist'} style={{ textDecoration: 'none' }}>
+        <button 
+          style={{
+            padding: '12px 24px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+        >
+          Retry Payment
+        </button>
+      </Link> */}
     </div>
   );
 }

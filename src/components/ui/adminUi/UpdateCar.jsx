@@ -259,6 +259,21 @@ const UpdateCar = () => {
           </div>
 
           <div className="mb-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  className="form-checkbox"
+                  {...register('availability')}
+          
+                />
+                <span className="ml-2 text-gray-700">Available</span>
+              </label>
+            </div>
+
+
+
+
+          <div className="mb-4">
   <label className="block text-gray-700">Image:</label>
   <input
     type="file"

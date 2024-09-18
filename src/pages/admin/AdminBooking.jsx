@@ -75,6 +75,8 @@ export default function AdminBooking() {
   const handleSelectBooking = (bookingId) => {
     const bookingDetail = booking.find(car => car._id === bookingId);
     setSelectedBooking(bookingDetail);
+    
+    
   };
 
 
@@ -105,33 +107,56 @@ export default function AdminBooking() {
     try {
       await axiosInstance.post('nodemailer/create', {
         to: userId.email,
-        subject: "Journey Details with Morent Car Rentals",
-        text: `Your car rental booking with Morent Car Rentals has been confirmed! Below are the details...`,
+        subject: "Your Car Rental Confirmation - Morent Car Rentals",
+        text: `Dear ${userId.name}, your car rental booking with Morent Car Rentals has been confirmed. Please find the details of your reservation below.`,
         html: `
-       <p style="font-family: Arial, sans-serif; color: #333;">Dear ${userId.name},</p>
-<p>Your car rental booking with Morent Car Rentals has been confirmed!</p>
-<p>Below are the details of your rental:</p>
-<ul>
-  <li>Car ID: ${carId._id}</li>
-  <li>Car Model: ${carId.model}</li>
-  <li>Pickup Location: ${pickupLocation}</li>
-  <li>Drop-off Location: ${dropoffLocation}</li>
-  <li>Pickup Date: ${new Date(startDate).toLocaleDateString()} ${startTime}</li>
-  <li>Drop-off Date: ${new Date(endDate).toLocaleDateString()} ${endTime}</li>
-  <li>Payment Status: ${paymentStatus}</li>
-  <li>Status: ${status}</li>
-</ul>
-<p>Please arrive at the pickup location 15 minutes before the scheduled time for vehicle inspection.</p>
-<p>Regards,<br/>Morent Car Rentals</p>
-
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <p>Dear ${userId.name},</p>
+    
+          <p>We are pleased to confirm your car rental booking with <strong>Morent Car Rentals</strong>. Below are the details of your reservation:</p>
+    
+          <h4 style="color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">Booking Information</h4>
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong>Booking Number:</strong> 789654</li>
+            <li><strong>Vehicle:</strong> ${carId.model} ${carId.brand} (${carId.year})</li>
+            <li><strong>License Plate:</strong> ${carId.registrationNumber}</li>
+            <li><strong>Fuel Type:</strong> ${carId.fuelType}</li>
+            <li><strong>Seating Capacity:</strong> ${carId.capacity} passengers</li>
+          </ul>
+    
+          <h4 style="color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">Rental Period</h4>
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong>Pickup Date & Time:</strong> ${new Date(startDate).toLocaleDateString()}, ${startTime}</li>
+            <li><strong>Drop-off Date & Time:</strong> ${new Date(endDate).toLocaleDateString()}, ${endTime}</li>
+          </ul>
+    
+          <h4 style="color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">Pickup & Drop-off Locations</h4>
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li><strong>Pickup Location:</strong> ${pickupLocation}</li>
+            <li><strong>Drop-off Location:</strong> ${dropoffLocation}</li>
+            <li><strong>Contact Number:</strong> ${userId.phone}</li>
+          </ul>
+    
+          <h4 style="color: #555; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">Payment Details</h4>
+          <p><strong>Price Per Day:</strong> ₹${carId.pricePerDay}</p>
+          <p><strong>Payment Status:</strong> ${paymentStatus}</p>
+    
+          <p>Kindly ensure you arrive at the pickup location at least 15 minutes prior to the scheduled time for a smooth vehicle inspection and handover.</p>
+    
+          <p>If you have any questions or need further assistance, feel free to contact us at your earliest convenience.</p>
+    
+          <p>Best regards,<br><strong>Morent Car Rentals Team</strong></p>
+        </div>
         `
       });
-
+    
       toast.success("Email sent successfully!");
     } catch (error) {
       console.error("Error sending email:", error.response?.data?.message || error.message);
       toast.error("Error sending email.");
+      console.log(error);
     }
+    
   };
 
   if (loading) return <p>Loading...</p>;

@@ -3,6 +3,7 @@ import RevenueChart from '../../components/ui/adminUi/RevenueChart'; // Adjust t
 import BookingsChart from '../../components/ui/adminUi/BookingChart'; // Adjust the path as needed
 import { axiosInstance } from '../../config/axiosInstance';
 
+
 export default function AdminDashboard() {
   const [totalCars, setTotalCars] = useState(0);
   const [totalBookings, setTotalBookings] = useState(0);
@@ -42,7 +43,7 @@ export default function AdminDashboard() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Car Rental Admin Dashboard</h1>
-
+      
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
