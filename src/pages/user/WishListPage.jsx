@@ -49,14 +49,15 @@ export default function WishListPage() {
   }, [userId]);
 
   return (
-    <div className="container mx-auto p-24">
+    <div className="container mx-auto p-12">
       <h2 className="text-3xl font-bold mb-6">Your Car Wishlist</h2>
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : wishlist.length === 0 ? (
-        <p className="text-gray-500">Your wishlist is empty.</p>
+        // <p className="text-gray-500">Your wishlist is empty.</p>
+        <img src='https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg' alt='img' className=' flex justify-center items-center ml-96'></img>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {wishlist.map(car => (

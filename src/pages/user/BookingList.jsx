@@ -143,6 +143,7 @@ export default function BookingList() {
     <div className="flex justify-center items-center h-screen">
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
+        
       </Spinner>
     </div>
   );
@@ -162,7 +163,8 @@ export default function BookingList() {
 
         {cars.length === 0 ? (
           <div className="flex justify-center items-center mt-12">
-            <p className="text-gray-600 text-xl">You have no bookings yet. Start booking your favorite cars!</p>
+            {/* <p className="text-gray-600 text-xl">You have no bookings yet. Start booking your favorite cars!</p> */}
+            <img src="https://img.freepik.com/free-vector/hand-drawn-no-data-concept_52683-127823.jpg" alt="no bookking" />
           </div>
         ) : (
           <motion.div
