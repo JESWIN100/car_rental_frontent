@@ -242,6 +242,15 @@ export default function AdminBooking() {
                       Delete Booking
                     </button>
                   )}
+                  {/* {when not paid then delete if want} */}
+                    {car.paymentStatus === 'Pending' && (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteBooking(car._id)}
+                    >
+                      Delete Booking
+                    </button>
+                  )}
                 </td>
                 <td>
                 <button

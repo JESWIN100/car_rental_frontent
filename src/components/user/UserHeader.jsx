@@ -19,7 +19,7 @@ export default function UserHeader() {
 
       if (response) {
         toast.success(response.message || 'Logged out successfully');
-        navigate('/'); // Redirect to login page
+        navigate('/'); 
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'An error occurred');

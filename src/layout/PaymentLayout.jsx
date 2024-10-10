@@ -10,7 +10,6 @@ export default function PaymentLayout() {
         <div className='min-h-96'>
         <Outlet/>
         </div>
-       
     </div>
   )
 }

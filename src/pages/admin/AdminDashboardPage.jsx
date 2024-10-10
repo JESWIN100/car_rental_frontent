@@ -70,7 +70,7 @@ export default function AdminDashboard() {
       </div> */}
 
       {/* Cars Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Most Popular Cars</h2>
           <ul className="space-y-2">
@@ -86,19 +86,16 @@ export default function AdminDashboard() {
             <li>Tesla Model S - Mileage 15,000</li>
           </ul>
         </div>
-      </div>
+      </div> */}
 
       {/* Charts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Bookings Over Time</h2>
           <BookingsChart />
         </div>
-        {/* <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">Revenue Overview</h2>
-          <RevenueChart />
-        </div> */}
-      </div>
+        
+      </div> */}
 
       {/* Quick Access Links */}
       {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
