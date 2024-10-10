@@ -202,7 +202,7 @@ fetchUser()
           type="date"
           id="endDate"
           {...register('endDate', { required: true })}
-          className={`form-control w-full p-3 rounded-md border ${errors.endDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-gray-50 text-gray-800`}
+          className={`form-control w-full p-3 rounded-md border ${errors.endDate ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-indigo-500 bg-white text-gray-800`}
           min={new Date().toISOString().split('T')[0]}
         />
         {errors.endDate && <span className="text-red-500 text-sm">End date is required.</span>}
