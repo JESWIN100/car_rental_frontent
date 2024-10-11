@@ -87,11 +87,13 @@ export default function AdminUser() {
               <tr key={user._id}>
                 <th>
                   <label>
-                    <input
-                      type="checkbox"
-                      className="checkbox bg-orange-300"
-                      onClick={() => handleDelete(user._id)} // Trigger delete on checkbox click
-                    />
+                  <button
+                className="btn btn-outline btn-error text-white px-4 py-2 rounded-xl "
+                onClick={() => handleDelete(user._id)}
+              >
+                Delete
+              </button>
+                  
                   </label>
                 </th>
                 <td>

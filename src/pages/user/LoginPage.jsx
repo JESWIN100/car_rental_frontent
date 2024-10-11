@@ -7,15 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function LoginPage() {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const { confirmPassword, ...loginData } = data;
-      const response = await userLogin(loginData);
+      const response = await userLogin(data);
       console.log("login data", response);
 
       if (response) {
@@ -31,12 +29,6 @@ export default function LoginPage() {
   const handleTogglePassword = () => {
     setShowPassword(prev => !prev);
   };
-
-  const handleToggleConfirmPassword = () => {
-    setShowConfirmPassword(prev => !prev);
-  };
-
-  const password = watch("password");
 
   return (
     <div className="bg-gray-900 min-h-screen flex justify-center items-center p-5">
@@ -100,41 +92,6 @@ export default function LoginPage() {
               {errors.password && (
                 <p className="text-red-400 text-sm mt-1">
                   {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="confirm-password" className="font-medium mb-1 block">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  id="confirm-password"
-                  placeholder="Confirm your password"
-                  className="w-full p-3 border border-gray-600 bg-gray-700 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Confirm Password must be at least 8 characters long",
-                    },
-                    validate: value =>
-                      value === password || "Passwords do not match",
-                  })}
-                />
-                <button
-                  type="button"
-                  onClick={handleToggleConfirmPassword}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                >
-                  <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} size="lg" className="text-gray-400" />
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors.confirmPassword.message}
                 </p>
               )}
             </div>

@@ -24,7 +24,6 @@ const AdminCars = () => {
     try {
       const id = prompt('Please enter the Car ID to delete:', '');
       if (id) {
-        // Set the carId state to trigger useEffect
         setCarId(id);
       }
     } catch (error) {
@@ -51,7 +50,7 @@ const AdminCars = () => {
     };
 
     deleteCarData();
-  }, [carId]); // Dependencies array ensures effect runs when carId changes
+  }, [carId]); 
 
   return (
     <div className='flex flex-col gap-5 p-5'>
@@ -68,7 +67,7 @@ const AdminCars = () => {
         </div>
       </div>
   
-      <div className="card card-compact bg-base-100 w-96 shadow-xl">
+      {/* <div className="card card-compact bg-base-100 w-96 shadow-xl">
         <div className="card-body">
           <h2 className="card-title">Edit Cars</h2>
           <p>Start editing existing cars in our rental service!</p>
@@ -78,9 +77,9 @@ const AdminCars = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
   
-      <div className="card card-compact bg-base-100 w-96 shadow-xl">
+      {/* <div className="card card-compact bg-base-100 w-96 shadow-xl">
         <div className="card-body">
           <h2 className="card-title">Delete Cars</h2>
           <p>Start deleting existing cars from our rental service!</p>
@@ -90,7 +89,7 @@ const AdminCars = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   
     <div>

@@ -19,8 +19,7 @@ export default function AdminLoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      const { confirmPassword, ...loginData } = data;
-      const response = await adminLogin(loginData);
+      const response = await adminLogin(data);
 
       if (response) {
         toast.success(response.message);
@@ -83,7 +82,7 @@ export default function AdminLoginPage() {
           )}
         </div>
 
-        <div>
+        {/* <div>
           <label htmlFor="confirmPassword" className="font-medium mb-1 block text-gray-300">Confirm Password</label>
           <input
             type="password"
@@ -99,7 +98,7 @@ export default function AdminLoginPage() {
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
           )}
-        </div>
+        </div> */}
 
         <button
           type="submit"

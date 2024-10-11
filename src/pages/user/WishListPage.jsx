@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { axiosInstance } from "../../config/axiosInstance";
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export default function WishListPage() {
   const [wishlist, setWishlist] = useState([]);
@@ -49,27 +50,35 @@ export default function WishListPage() {
   }, [userId]);
 
   return (
-    <div className="container mx-auto p-12">
-      <h2 className="text-3xl font-bold mb-6">Your Car Wishlist</h2>
+    <div className="container mx-auto p-8 lg:p-12">
+      <h2 className="text-4xl font-bold mb-8 text-center">Your Car Wishlist</h2>
+
       {loading ? (
-        <p className="text-gray-500">Loading...</p>
+        <div className="flex justify-center items-center h-64">
+          <p className="text-gray-500 animate-pulse">Loading your wishlist...</p>
+        </div>
       ) : error ? (
-        <p className="text-red-500">{error}</p>
+        <p className="text-red-500 text-center">{error}</p>
       ) : wishlist.length === 0 ? (
-        // <p className="text-gray-500">Your wishlist is empty.</p>
-        <img src='https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg' alt='img' className=' flex justify-center items-center ml-96'></img>
+        <div className="flex justify-center items-center h-64">
+          <img 
+            src="https://img.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg" 
+            alt="No Data" 
+            className="max-w-xs"
+          />
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {wishlist.map(car => (
             car ? (
-              <div key={car._id} className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+              <div key={car._id} className="bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out">
                 <img 
                   src={car.image[0] || '/default-image.jpg'} 
                   alt={car.model || 'Car Image'} 
-                  className="w-full h-32 object-contain" 
+                  className="w-full h-40 object-contain p-4"
                 />
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="text-lg font-semibold mb-2">
                     {car.brand || 'Unknown Brand'} {car.model || 'Unknown Model'}
                   </h3>
                   <p className="text-gray-600 mb-2">Year: {car.year || 'N/A'}</p>
@@ -77,7 +86,13 @@ export default function WishListPage() {
                   <p className="text-gray-600 mb-2">Fuel Type: {car.fuelType || 'N/A'}</p>
                   <p className="text-gray-600 mb-2">Transmission: {car.transmission || 'N/A'}</p>
                   <p className="text-lg font-bold">Price per day: ₹{car.pricePerDay || 'N/A'}</p>
-                  
+                </div>
+                <div className="p-4">
+                  <Link to={`/car/car-details/${car._id}`}>
+                    <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition-all duration-300">
+                      More Details
+                    </button>
+                  </Link>
                 </div>
               </div>
             ) : null
